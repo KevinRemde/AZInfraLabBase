@@ -1,0 +1,83 @@
+{
+	"$schema" : "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion" : "1.0.0.0",
+	"parameters" : {
+		"location" : {
+			"type" : "string",
+			"allowedValues" : [
+				"West US",
+				"East US",
+				"West Europe",
+				"Southeast Asia"
+			],
+			"metadata" : {
+				"Description" : "The region to deploy the resources into"
+			}
+		},
+		"virtualNetworkName" : {
+			"type" : "string",
+			"metadata" : {
+				"Description" : "The name of the Virtual Network to Create"
+			}
+		},
+		"virtualNetworkAddressRange" : {
+			"type" : "string",
+			"metadata" : {
+				"Description" : "The address range of the new VNET in CIDR format"
+			},
+			"defaultValue" : "10.0.0.0/16"
+		},
+		"subnet1Name" : {
+			"type" : "string",
+			"metadata" : {
+				"Description" : "The name of the subnet created in the new VNET"
+			}
+		},
+		"subnet1Range" : {
+			"type" : "string",
+			"metadata" : {
+				"Description" : "The address range of the subnet created in the new VNET"
+			},
+			"defaultValue" : "192.168.200.0/24"
+		},
+		"subnet2Name" : {
+			"type" : "string",
+			"metadata" : {
+				"Description" : "The name of the subnet created in the new VNET"
+			}
+		},
+		"subnet2Range" : {
+			"type" : "string",
+			"metadata" : {
+				"Description" : "The address range of the subnet created in the new VNET"
+			},
+			"defaultValue" : "192.168.10.0/24"
+		}
+	},
+	"resources" : [{
+			"name" : "[parameters('virtualNetworkName')]",
+			"type" : "Microsoft.Network/virtualNetworks",
+			"location" : "[parameters('location')]",
+			"apiVersion" : "2015-05-01-preview",
+			"properties" : {
+				"addressSpace" : {
+					"addressPrefixes" : [
+						"[parameters('virtualNetworkAddressRange')]"
+					]
+				},
+				"subnets" : [{
+						"name" : "[parameters('subnet1Name')]",
+						"properties" : {
+							"addressPrefix" : "[parameters('subnet1Range')]"
+						}
+					}, {
+						"name" : "[parameters('subnet2Name')]",
+						"properties" : {
+							"addressPrefix" : "[parameters('subnet2Range')]"
+						}
+					}
+				]
+			}
+		}
+	]
+}
