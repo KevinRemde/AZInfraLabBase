@@ -1,0 +1,75 @@
+{
+	"$schema" : "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion" : "1.0.0.0",
+	"parameters" : {
+		"location": {
+			"value" : "East US"
+		},
+		"virtualNetworkName" : {
+			"value" : "labVNet"
+		},
+		"feSubnetName" : {
+			"value" : "feSubnet"
+		},
+		"labSubnetName" : {
+			"value" : "labSubnet"
+		},
+		"dcDNSVMName" : {
+			"value" : "kardc01"
+		},
+		"dcVMName" : {
+			"value" : "DC"
+		},
+		"dcVMSize" : {
+			"value" : "Standard_D2"
+		},
+		"adminDNSVMName" : {
+			"value" : "karadmin01"
+		},
+		"adminVMName" : {
+			"value" : "ADMIN"
+		},
+		"adminVMSize" : {
+			"value" : "Standard_D2"
+		},
+		"edgeDNSVMName" : {
+			"value" : "karedge01"
+		},
+		"edgeVMName" : {
+			"value" : "EDGE"
+		},
+		"edgeVMSize" : {
+			"value" : "Standard_D2"
+		},
+		"syncDNSVMName" : {
+			"value" : "karsync01"
+		},
+		"syncVMName" : {
+			"value" : "SYNC"
+		},
+		"syncVMSize" : {
+			"value" : "Standard_D2"
+		},
+		"domainName" : {
+			"value" : "contoso.com"
+		},
+		"domainUsername" : {
+			"value" : "labAdmin"
+		},
+		"domainPassword" : {
+			"value" : "Passw0rd!"
+		},
+		"ouPath" : {
+			"value" : ""
+		},
+		"domainJoinOptions" : {
+			"value" : 3
+		},
+		"vmUsername" : {
+			"value" : "labadmin"
+		},
+		"vmPassword" : {
+			"value" : "Passw0rd!"
+		}
+	}
+}

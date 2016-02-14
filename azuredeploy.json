@@ -1,0 +1,941 @@
+{
+	"$schema" : "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion" : "1.0.0.0",
+	"parameters" : {
+		"location" : {
+			"type" : "string",
+			"allowedValues" : [
+				"West US",
+				"East US",
+				"West Europe",
+				"East Asia",
+				"Southeast Asia"
+			],
+			"metadata" : {
+				"description" : "The region to deploy the resources into"
+			}
+		},
+		"virtualNetworkName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Existing VNET that contains the domain controller"
+			},
+			"defaultValue": "labVNet"
+		},
+		"virtualNetworkAddressRange" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "The address range of the new VNET in CIDR format"
+			},
+			"defaultValue" : "192.168.0.0/16"
+		},
+		"labSubnetName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "The name of the subnet created in the new VNET"
+			},
+			"defaultValue" : "labSubnet"
+		},
+		"labSubnet" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "The address range of the subnet created in the new VNET"
+			},
+			"defaultValue" : "192.168.10.0/24"
+		},
+		"feSubnetName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "The name of the subnet created in the new VNET"
+			},
+			"defaultValue" : "feSubnet"
+		},
+		"feSubnet" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "The address range of the subnet created in the new VNET"
+			},
+			"defaultValue" : "192.168.200.0/24"
+		},
+		"dcDNSVMName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Unique public DNS prefix for the deployment. The fqdn will look something like '<dnsname>.westus.cloudapp.azure.com'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to '^[a-z][a-z0-9-]{1,61}[a-z0-9]$'."
+			}
+		},
+		"dcVMName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Name of the VM being created."
+			},
+			"defaultValue" : "DC"
+		},
+		"dcVMSize" : {
+			"type" : "string",
+			"defaultValue" : "Standard_D2",
+			"metadata" : {
+				"description" : "The size of the virtual machines"
+			}
+		},
+		"adminDNSVMName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Unique public DNS prefix for the deployment. The fqdn will look something like '<dnsname>.westus.cloudapp.azure.com'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to '^[a-z][a-z0-9-]{1,61}[a-z0-9]$'."
+			}
+		},
+		"adminVMName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Name of the VM being created."
+			},
+			"defaultValue" : "ADMIN"
+		},
+		"adminVMSize" : {
+			"type" : "string",
+			"defaultValue" : "Standard_D2",
+			"metadata" : {
+				"description" : "The size of the virtual machines"
+			}
+		},
+		"edgeDNSVMName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Unique public DNS prefix for the deployment. The fqdn will look something like '<dnsname>.westus.cloudapp.azure.com'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to '^[a-z][a-z0-9-]{1,61}[a-z0-9]$'."
+			}
+		},
+		"edgeVMName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Name of the VM being created."
+			},
+			"defaultValue" : "EDGE"
+		},
+		"edgeVMSize" : {
+			"type" : "string",
+			"defaultValue" : "Standard_D2",
+			"metadata" : {
+				"description" : "The size of the virtual machines"
+			}
+		},
+		"syncDNSVMName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Unique public DNS prefix for the deployment. The fqdn will look something like '<dnsname>.westus.cloudapp.azure.com'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to '^[a-z][a-z0-9-]{1,61}[a-z0-9]$'."
+			}
+		},
+		"syncVMName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Name of the VM being created."
+			},
+			"defaultValue" : "SYNC"
+		},
+		"syncVMSize" : {
+			"type" : "string",
+			"defaultValue" : "Standard_D2",
+			"metadata" : {
+				"description" : "The size of the virtual machines"
+			}
+		},
+		"domainName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "The FQDN of the AD domain"
+			}
+		},
+		"domainUsername" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "The name of the Administrator of the new VM and Domain"
+			},
+			"defaultValue" : "labAdmin"
+		},
+		"domainPassword" : {
+			"type" : "securestring",
+			"metadata" : {
+				"description" : "The password forthe Administrator account of the new VM and Domain"
+			}
+		},
+		"ouPath" : {
+			"type" : "string",
+			"defaultValue" : "",
+			"metadata" : {
+				"description" : "Specifies an organizational unit (OU) for the domain account. Enter the full distinguished name of the OU in quotation marks. Example: 'OU=testOU; DC=domain; DC=Domain; DC=com'"
+			}
+		},
+		"domainJoinOptions" : {
+			"type" : "int",
+			"defaultValue" : 3,
+			"metadata" : {
+				"description" : "Set of bit flags that define the join options. Default value of 3 is a combination of NETSETUP_JOIN_DOMAIN (0x00000001) & NETSETUP_ACCT_CREATE (0x00000002) i.e. will join the domain and create the account on the domain. For more information see https://msdn.microsoft.com/en-us/library/aa392154(v=vs.85).aspx"
+			}
+		},
+		"vmUserName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "The name of the administrator of the new VM and the domain. Exclusion list: 'admin','administrator'"
+			},
+			"defaultValue" : "labAdmin"
+		},
+		"vmPassword" : {
+			"type" : "securestring",
+			"metadata" : {
+				"description" : "The password for the administrator account of the new VM and the domain"
+			}
+		},
+		"assetLocation" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "The location of resources such as templates and DSC modules that the script is dependent"
+			},
+			"defaultValue" : "https://rawgit.com/KevinRemde/AZInfraLabBase/master/"
+		}
+	},
+	"variables" : {
+		"dcStorageAccountName" : "[concat(uniquestring(resourceGroup().id), parameters('dcVMName'))]",
+		"adminStorageAccountName" : "[concat(uniquestring(resourceGroup().id), parameters('adminVMName'))]",
+		"edgeStorageAccountName" : "[concat(uniquestring(resourceGroup().id), parameters('edgeVMName'))]",
+		"syncStorageAccountName" : "[concat(uniquestring(resourceGroup().id), parameters('syncVMName'))]",
+		"imagePublisher" : "MicrosoftWindowsServer",
+		"imageOffer" : "WindowsServer",
+		"imageSKU" : "2012-R2-Datacenter",
+		"apiVersion" : "2015-06-15",
+		"dcNICName" : "dcNIC",
+		"adminNICName" : "adminNIC",
+		"edgeBENICName" : "edgeBENIC",
+		"edgeFENICName" : "edgeFENIC",
+		"syncNICName" : "syncNIC",
+		"dcPIPName" : "dcPublicIP",
+		"adminPIPName" : "adminPublicIP",
+		"edgePIPName" : "edgePublicIP",
+		"syncPIPName" : "syncPublicIP",
+		"dcBEIP": "192.168.10.4",
+		"adminBEIP": "192.168.10.20", 
+		"edgeBEIP": "192.168.10.254",
+		"edgeFEIP": "192.168.200.4",
+		"syncBEIP": "192.168.10.10",
+		"vnetID" : "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+		"feSubnetId" : "[concat(variables('vnetID'),'/subnets/', parameters('feSubnetName'))]",
+		"labSubnetId" : "[concat(variables('vnetID'),'/subnets/', parameters('labSubnetName'))]",
+		"dcDataDisk" : "dcDataDisk",
+		"dcDataDiskSize" : 1000,
+		"vnetTemplateUri" : "[concat(parameters('assetLocation'),'vnet.json')]",
+		"vnetwithDNSTemplateUri" : "[concat(parameters('assetLocation'),'vnet-with-dns-server.json')]",
+		"dcModulesURL" : "[concat(parameters('assetLocation'),'CreateADPDC.ps1.zip')]",
+		"dcConfigurationFunction" : "CreateADPDC.ps1\\CreateADPDC"
+	},
+	"resources" : [{
+			"type" : "Microsoft.Network/publicIPAddresses",
+			"apiVersion" : "[variables('apiVersion')]",
+			"name" : "[variables('dcPIPName')]",
+			"location" : "[resourceGroup().location]",
+			"properties" : {
+				"publicIPAllocationMethod" : "Dynamic",
+				"dnsSettings" : {
+					"domainNameLabel" : "[parameters('dcDNSVMName')]"
+				}
+			}
+		}, {
+			"type" : "Microsoft.Network/publicIPAddresses",
+			"apiVersion" : "[variables('apiVersion')]",
+			"name" : "[variables('adminPIPName')]",
+			"location" : "[resourceGroup().location]",
+			"properties" : {
+				"publicIPAllocationMethod" : "Dynamic",
+				"dnsSettings" : {
+					"domainNameLabel" : "[parameters('adminDNSVMName')]"
+				}
+			}
+		}, {
+			"type" : "Microsoft.Network/publicIPAddresses",
+			"apiVersion" : "[variables('apiVersion')]",
+			"name" : "[variables('edgePIPName')]",
+			"location" : "[resourceGroup().location]",
+			"properties" : {
+				"publicIPAllocationMethod" : "Dynamic",
+				"dnsSettings" : {
+					"domainNameLabel" : "[parameters('edgeDNSVMName')]"
+				}
+			}
+		}, {
+			"type" : "Microsoft.Network/publicIPAddresses",
+			"apiVersion" : "[variables('apiVersion')]",
+			"name" : "[variables('syncPIPName')]",
+			"location" : "[resourceGroup().location]",
+			"properties" : {
+				"publicIPAllocationMethod" : "Dynamic",
+				"dnsSettings" : {
+					"domainNameLabel" : "[parameters('syncDNSVMName')]"
+				}
+			}
+		}, {
+			"type" : "Microsoft.Storage/storageAccounts",
+			"apiVersion" : "[variables('apiVersion')]",
+			"name" : "[variables('dcStorageAccountName')]",
+			"location" : "[resourceGroup().location]",
+			"properties" : {
+				"accountType" : "Standard_LRS"
+			}
+		}, {
+			"type" : "Microsoft.Storage/storageAccounts",
+			"apiVersion" : "[variables('apiVersion')]",
+			"name" : "[variables('adminStorageAccountName')]",
+			"location" : "[resourceGroup().location]",
+			"properties" : {
+				"accountType" : "Standard_LRS"
+			}
+		}, {
+			"type" : "Microsoft.Storage/storageAccounts",
+			"apiVersion" : "[variables('apiVersion')]",
+			"name" : "[variables('edgeStorageAccountName')]",
+			"location" : "[resourceGroup().location]",
+			"properties" : {
+				"accountType" : "Standard_LRS"
+			}
+		}, {
+			"type" : "Microsoft.Storage/storageAccounts",
+			"apiVersion" : "[variables('apiVersion')]",
+			"name" : "[variables('syncStorageAccountName')]",
+			"location" : "[resourceGroup().location]",
+			"properties" : {
+				"accountType" : "Standard_LRS"
+			}
+		}, {
+			"name" : "[parameters('virtualNetworkName')]",
+			"type" : "Microsoft.Resources/deployments",
+			"apiVersion" : "2015-01-01",
+			"properties" : {
+				"mode" : "Incremental",
+				"templateLink" : {
+					"uri" : "[variables('vnetTemplateUri')]",
+					"contentVersion" : "1.0.0.0"
+				},
+				"parameters" : {
+					"location" : {
+						"value" : "[parameters('location')]"
+					},
+					"virtualNetworkName" : {
+						"value" : "[parameters('virtualNetworkName')]"
+					},
+					"virtualNetworkAddressRange" : {
+						"value" : "[parameters('virtualNetworkAddressRange')]"
+					},
+					"subnet1Name" : {
+						"value" : "[parameters('feSubnetName')]"
+					},
+					"subnet1Range" : {
+						"value" : "[parameters('feSubnet')]"
+					},
+					"subnet2Name" : {
+						"value" : "[parameters('labSubnetName')]"
+					},
+					"subnet2Range" : {
+						"value" : "[parameters('labSubnet')]"
+					}
+				}
+			}
+		}, {
+			"type" : "Microsoft.Network/networkInterfaces",
+			"apiVersion" : "[variables('apiVersion')]",
+			"name" : "[variables('dcNICName')]",
+			"location" : "[resourceGroup().location]",
+			"tags" : {
+				"displayName" : "NetworkInterface - DC"
+			},
+			"dependsOn" : [
+				"[concat('Microsoft.Resources/deployments/', parameters('virtualNetworkName'))]",
+				"[concat('Microsoft.Network/publicIPAddresses/', variables('dcPIPName'))]"
+			],
+			"properties" : {
+				"ipConfigurations" : [{
+						"name" : "ipconfig1",
+						"properties" : {
+							"privateIPAllocationMethod" : "Static",
+							"privateIPAddress" : "[variables('dcBEIP')]",
+							"publicIPAddress" : {
+								"id" : "[resourceId('Microsoft.Network/publicIPAddresses', variables('dcPIPName'))]"
+							},
+							"subnet" : {
+								"id" : "[variables('labSubnetId')]"
+							}
+						}
+					}
+				]
+			}
+		}, {
+			"type" : "Microsoft.Network/networkInterfaces",
+			"apiVersion" : "[variables('apiVersion')]",
+			"name" : "[variables('edgeFENICName')]",
+			"location" : "[resourceGroup().location]",
+			"tags" : {
+				"displayName" : "NetworkInterface - EDGE FE"
+			},
+			"dependsOn" : [
+				"[concat('Microsoft.Resources/deployments/', parameters('virtualNetworkName'))]",
+				"[concat('Microsoft.Network/publicIPAddresses/', variables('edgePIPName'))]"
+			],
+			"properties" : {
+				"ipConfigurations" : [{
+						"name" : "ipconfig1",
+						"properties" : {
+							"privateIPAllocationMethod" : "Static",
+							"privateIPAddress" : "[variables('edgeFEIP')]",
+							"publicIPAddress" : {
+								"id" : "[resourceId('Microsoft.Network/publicIPAddresses', variables('edgePIPName'))]"
+							},
+							"subnet" : {
+								"id" : "[variables('feSubnetId')]"
+							}
+						}
+					}
+				]
+			}
+		}, {
+			"type" : "Microsoft.Network/networkInterfaces",
+			"apiVersion" : "[variables('apiVersion')]",
+			"name" : "[variables('adminNICName')]",
+			"location" : "[resourceGroup().location]",
+			"tags" : {
+				"displayName" : "NetworkInterface - ADMIN"
+			},
+			"dependsOn" : [
+				"[concat('Microsoft.Resources/deployments/', parameters('virtualNetworkName'))]"
+			],
+			"properties" : {
+				"ipConfigurations" : [{
+						"name" : "ipconfig1",
+						"properties" : {
+							"privateIPAllocationMethod" : "Static",
+							"privateIPAddress" : "[variables('adminBEIP')]",
+							"publicIPAddress" : {
+								"id" : "[resourceId('Microsoft.Network/publicIPAddresses', variables('adminPIPName'))]"
+							},
+							"subnet" : {
+								"id" : "[variables('labSubnetId')]"
+							}
+						}
+					}
+				],
+				"dnsSettings": {
+					"dnsServers": [
+						"[variables('dcBEIP')]"
+					]
+				}
+			}
+		}, {
+			"type" : "Microsoft.Network/networkInterfaces",
+			"apiVersion" : "[variables('apiVersion')]",
+			"name" : "[variables('edgeBENICName')]",
+			"location" : "[resourceGroup().location]",
+			"tags" : {
+				"displayName" : "NetworkInterface - EDGE BE"
+			},
+			"dependsOn" : [
+				"[concat('Microsoft.Resources/deployments/', parameters('virtualNetworkName'))]"
+			],
+			"properties" : {
+				"ipConfigurations" : [{
+						"name" : "ipconfig1",
+						"properties" : {
+							"privateIPAllocationMethod" : "Static",
+							"privateIPAddress" : "[variables('edgeBEIP')]",
+							"subnet" : {
+								"id" : "[variables('labSubnetId')]"
+							}
+						}
+					}
+				],
+				"dnsSettings": {
+					"dnsServers": [
+						"[variables('dcBEIP')]"
+					]
+				}
+			}
+		}, {
+			"type" : "Microsoft.Network/networkInterfaces",
+			"apiVersion" : "[variables('apiVersion')]",
+			"name" : "[variables('syncNICName')]",
+			"location" : "[resourceGroup().location]",
+			"tags" : {
+				"displayName" : "NetworkInterface - SYNC"
+			},
+			"dependsOn" : [
+				"[concat('Microsoft.Resources/deployments/', parameters('virtualNetworkName'))]"
+			],
+			"properties" : {
+				"ipConfigurations" : [{
+						"name" : "ipconfig1",
+						"properties" : {
+							"privateIPAllocationMethod" : "Static",
+							"privateIPAddress" : "[variables('syncBEIP')]",
+							"publicIPAddress" : {
+								"id" : "[resourceId('Microsoft.Network/publicIPAddresses', variables('syncPIPName'))]"
+							},
+							"subnet" : {
+								"id" : "[variables('labSubnetId')]"
+							}
+						}
+					}
+				],
+				"dnsSettings": {
+					"dnsServers": [
+						"[variables('dcBEIP')]"
+					]
+				}
+			}
+		}, {
+			"type" : "Microsoft.Compute/virtualMachines",
+			"apiVersion" : "2015-05-01-preview",
+			"name" : "[parameters('dcVMName')]",
+			"location" : "[resourceGroup().location]",
+			"dependsOn" : [
+				"[resourceId('Microsoft.Storage/storageAccounts',variables('dcStorageAccountName'))]",
+				"[resourceId('Microsoft.Network/networkInterfaces',variables('dcNICName'))]",
+			],
+			"properties" : {
+				"hardwareProfile" : {
+					"vmSize" : "[parameters('dcVMSize')]"
+				},
+				"osProfile" : {
+					"computerName" : "[parameters('dcVMName')]",
+					"adminUsername" : "[parameters('domainUsername')]",
+					"adminPassword" : "[parameters('domainPassword')]"
+				},
+				"storageProfile" : {
+					"imageReference" : {
+						"publisher" : "[variables('imagePublisher')]",
+						"offer" : "[variables('imageOffer')]",
+						"sku" : "[variables('imageSKU')]",
+						"version" : "latest"
+					},
+					"osDisk" : {
+						"name" : "osdisk",
+						"vhd" : {
+							"uri" : "[concat('http://',variables('dcStorageAccountName'),'.blob.core.windows.net/vhds/','osdisk.vhd')]"
+						},
+						"caching" : "ReadWrite",
+						"createOption" : "FromImage"
+					},
+					"dataDisks" : [{
+							"vhd" : {
+								"uri" : "[concat('http://',variables('dcStorageAccountName'),'.blob.core.windows.net/vhds/', variables('dcDataDisk'),'-1.vhd')]"
+							},
+							"name" : "[concat(parameters('dcVMName'),'-data-disk1')]",
+							"caching" : "None",
+							"createOption" : "empty",
+							"diskSizeGB" : "[variables('dcDataDiskSize')]",
+							"lun" : 0
+						}
+					]
+				},
+				"networkProfile" : {
+					"networkInterfaces" : [{
+							"id" : "[resourceId('Microsoft.Network/networkInterfaces',variables('dcNICName'))]"
+						}
+					]
+				}
+			},
+			"resources" : [{
+					"type" : "Microsoft.Compute/virtualMachines/extensions",
+					"name" : "[concat(parameters('dcVMName'),'/createADForest')]",
+					"apiVersion" : "2015-05-01-preview",
+					"location" : "[resourceGroup().location]",
+					"dependsOn" : [
+						"[resourceId('Microsoft.Compute/virtualMachines', parameters('dcVMName'))]"
+					],
+					"properties" : {
+						"publisher" : "Microsoft.Powershell",
+						"type" : "DSC",
+						"typeHandlerVersion" : "2.11",
+						"autoUpgradeMinorVersion" : true,
+						"settings" : {
+							"ModulesUrl" : "[variables('dcModulesURL')]",
+							"ConfigurationFunction" : "[variables('dcConfigurationFunction')]",
+							"Properties" : {
+								"DomainName" : "[parameters('domainName')]",
+								"AdminCreds" : {
+									"UserName" : "[parameters('domainUsername')]",
+									"Password" : "PrivateSettingsRef:AdminPassword"
+								}
+							}
+						},
+						"protectedSettings" : {
+							"Items" : {
+								"AdminPassword" : "[parameters('domainPassword')]"
+							}
+						}
+					}
+				}
+			]
+		}, {
+			"apiVersion" : "[variables('apiVersion')]",
+			"type" : "Microsoft.Compute/virtualMachines",
+			"name" : "[parameters('adminVMName')]",
+			"location" : "[resourceGroup().location]",
+			"dependsOn" : [
+				"[resourceId('Microsoft.Storage/storageAccounts',variables('adminStorageAccountName'))]",
+				"[resourceId('Microsoft.Network/networkInterfaces', variables('adminNICName'))]"
+			],
+			"properties" : {
+				"hardwareProfile" : {
+					"vmSize" : "[parameters('adminVMSize')]"
+				},
+				"osProfile" : {
+					"computerName" : "[parameters('adminVMName')]",
+					"adminUsername" : "[parameters('vmUserName')]",
+					"adminPassword" : "[parameters('vmPassword')]"
+				},
+				"storageProfile" : {
+					"imageReference" : {
+						"publisher" : "[variables('imagePublisher')]",
+						"offer" : "[variables('imageOffer')]",
+						"sku" : "[variables('imageSKU')]",
+						"version" : "latest"
+					},
+					"osDisk" : {
+						"name" : "osdisk",
+						"vhd" : {
+							"uri" : "[concat('http://',variables('adminStorageAccountName'),'.blob.core.windows.net/vhds/myvmosdisk.vhd')]"
+						},
+						"caching" : "ReadWrite",
+						"createOption" : "FromImage"
+					},
+					"dataDisks" : [{
+							"name" : "myvm-data-disk1",
+							"vhd" : {
+								"Uri" : "[concat('http://',variables('adminStorageAccountName'),'.blob.core.windows.net/vhds/myvm-data-disk1.vhd')]"
+							},
+							"caching" : "None",
+							"createOption" : "Empty",
+							"diskSizeGB" : "1000",
+							"lun" : 0
+						}
+					]
+				},
+				"networkProfile" : {
+					"networkInterfaces" : [{
+							"id" : "[resourceId('Microsoft.Network/networkInterfaces',variables('adminNICName'))]"
+						}
+					]
+				},
+				"diagnosticsProfile" : {
+					"bootDiagnostics" : {
+						"enabled" : "true",
+						"storageUri" : "[concat('http://',variables('adminStorageAccountName'),'.blob.core.windows.net')]"
+					}
+				}
+			},
+			"resources" : [{
+					"apiVersion" : "[variables('apiVersion')]",
+					"type" : "Microsoft.Compute/virtualMachines/extensions",
+					"name" : "[concat(parameters('adminVMName'),'/joinDomain')]",
+					"location" : "[resourceGroup().location]",
+					"dependsOn" : [
+						"[concat('Microsoft.Compute/virtualMachines/', parameters('adminVMName'))]",
+						"[concat('Microsoft.Compute/virtualMachines/', parameters('dcVMName'),'/extensions/createADForest')]"
+					],
+					"properties" : {
+						"publisher" : "Microsoft.Compute",
+						"type" : "JsonADDomainExtension",
+						"typeHandlerVersion" : "1.0",
+						"settings" : {
+							"Name" : "[parameters('domainName')]",
+							"OUPath" : "[parameters('ouPath')]",
+							"User" : "[concat(parameters('domainName'), '\\', parameters('domainUsername'))]",
+							"Restart" : "true",
+							"Options" : "[parameters('domainJoinOptions')]"
+						},
+						"protectedsettings" : {
+							"Password" : "[parameters('domainPassword')]"
+						}
+					}
+				}, {		
+					"apiVersion" : "2015-05-01-preview",
+					"type" : "Microsoft.Compute/virtualMachines/extensions",
+					"name" : "[concat(parameters('adminVMName'),'/getlabfiles')]",
+					"location" : "[resourceGroup().location]",
+					"dependsOn" : [
+						"[concat('Microsoft.Compute/virtualMachines/', parameters('adminVMName'))]",
+						"[concat('Microsoft.Compute/virtualMachines/', parameters ('adminVMName'), '/extensions/joinDomain')]"
+					],
+					"properties" : {
+						"publisher" : "Microsoft.Powershell",
+						"type" : "DSC",
+						"typeHandlerVersion" : "2.8",
+						"settings" : {
+							"ModulesUrl" : "[concat(parameters('assetLocation'),'getlabfiles.zip')]",
+							"ConfigurationFunction" : "getlabfiles.ps1\\getlabfiles",
+							"Properties" : {
+								"MachineName" : "[parameters('adminVMName')]"
+							}
+						},
+						"protectedSettings" : null
+					}
+				}
+			]
+		}, {
+			"apiVersion" : "[variables('apiVersion')]",
+			"type" : "Microsoft.Compute/virtualMachines",
+			"name" : "[parameters('edgeVMName')]",
+			"location" : "[resourceGroup().location]",
+			"dependsOn" : [
+				"[resourceId('Microsoft.Storage/storageAccounts',variables('edgestorageAccountName'))]",
+				"[resourceId('Microsoft.Network/networkInterfaces', variables('edgeFENICName'))]",
+				"[resourceId('Microsoft.Network/networkInterfaces', variables('edgeBENICName'))]"
+			],
+			"properties" : {
+				"hardwareProfile" : {
+					"vmSize" : "[parameters('edgeVMSize')]"
+				},
+				"osProfile" : {
+					"computerName" : "[parameters('edgeVMName')]",
+					"adminUsername" : "[parameters('vmUserName')]",
+					"adminPassword" : "[parameters('vmPassword')]"
+				},
+				"storageProfile" : {
+					"imageReference" : {
+						"publisher" : "[variables('imagePublisher')]",
+						"offer" : "[variables('imageOffer')]",
+						"sku" : "[variables('imageSKU')]",
+						"version" : "latest"
+					},
+					"osDisk" : {
+						"name" : "osdisk",
+						"vhd" : {
+							"uri" : "[concat('http://',variables('edgestorageAccountName'),'.blob.core.windows.net/vhds/myvmosdisk.vhd')]"
+						},
+						"caching" : "ReadWrite",
+						"createOption" : "FromImage"
+					},
+					"dataDisks" : [{
+							"name" : "myvm-data-disk1",
+							"vhd" : {
+								"Uri" : "[concat('http://',variables('edgestorageAccountName'),'.blob.core.windows.net/vhds/myvm-data-disk1.vhd')]"
+							},
+							"caching" : "None",
+							"createOption" : "Empty",
+							"diskSizeGB" : "1000",
+							"lun" : 0
+						}
+					]
+				},
+				"networkProfile" : {
+					"networkInterfaces" : [{
+							"id" : "[resourceId('Microsoft.Network/networkInterfaces', variables('edgeFENICName'))]",
+							"properties" : {
+								"primary" : true
+							}
+						}, {
+							"id" : "[resourceId('Microsoft.Network/networkInterfaces', variables('edgeBENICName'))]",
+							"properties" : {
+								"primary" : false
+							}
+						}
+					]
+				},
+				"diagnosticsProfile" : {
+					"bootDiagnostics" : {
+						"enabled" : "true",
+						"storageUri" : "[concat('http://',variables('edgestorageAccountName'),'.blob.core.windows.net')]"
+					}
+				}
+			},
+			"resources" : [{
+					"apiVersion" : "[variables('apiVersion')]",
+					"type" : "Microsoft.Compute/virtualMachines/extensions",
+					"name" : "[concat(parameters('edgeVMName'),'/joinDomain')]",
+					"location" : "[resourceGroup().location]",
+					"dependsOn" : [
+						"[concat('Microsoft.Compute/virtualMachines/', parameters('edgeVMName'))]",
+						"[concat('Microsoft.Compute/virtualMachines/', parameters('dcVMName'),'/extensions/createADForest')]"
+					],
+					"properties" : {
+						"publisher" : "Microsoft.Compute",
+						"type" : "JsonADDomainExtension",
+						"typeHandlerVersion" : "1.0",
+						"settings" : {
+							"Name" : "[parameters('domainName')]",
+							"OUPath" : "[parameters('ouPath')]",
+							"User" : "[concat(parameters('domainName'), '\\', parameters('domainUsername'))]",
+							"Restart" : "true",
+							"Options" : "[parameters('domainJoinOptions')]"
+						},
+						"protectedsettings" : {
+							"Password" : "[parameters('domainPassword')]"
+						}
+					}
+				}, {		
+					"apiVersion" : "2015-05-01-preview",
+					"type" : "Microsoft.Compute/virtualMachines/extensions",
+					"name" : "[concat(parameters('edgeVMName'),'/getlabfiles')]",
+					"location" : "[resourceGroup().location]",
+					"dependsOn" : [
+						"[concat('Microsoft.Compute/virtualMachines/', parameters('edgeVMName'))]",
+						"[concat('Microsoft.Compute/virtualMachines/', parameters ('edgeVMName'), '/extensions/joinDomain')]"
+					],
+					"properties" : {
+						"publisher" : "Microsoft.Powershell",
+						"type" : "DSC",
+						"typeHandlerVersion" : "2.8",
+						"settings" : {
+							"ModulesUrl" : "[concat(parameters('assetLocation'),'getlabfiles.zip')]",
+							"ConfigurationFunction" : "getlabfiles.ps1\\getlabfiles",
+							"Properties" : {
+								"MachineName" : "[parameters('edgeVMName')]"
+							}
+						},
+						"protectedSettings" : null
+					}
+				}
+			]
+		}, {
+			"apiVersion" : "[variables('apiVersion')]",
+			"type" : "Microsoft.Compute/virtualMachines",
+			"name" : "[parameters('syncVMName')]",
+			"location" : "[resourceGroup().location]",
+			"dependsOn" : [
+				"[resourceId('Microsoft.Storage/storageAccounts',variables('syncStorageAccountName'))]",
+				"[resourceId('Microsoft.Network/networkInterfaces', variables('syncNICName'))]"
+			],
+			"properties" : {
+				"hardwareProfile" : {
+					"vmSize" : "[parameters('syncVMSize')]"
+				},
+				"osProfile" : {
+					"computerName" : "[parameters('syncVMName')]",
+					"adminUsername" : "[parameters('vmUserName')]",
+					"adminPassword" : "[parameters('vmPassword')]"
+				},
+				"storageProfile" : {
+					"imageReference" : {
+						"publisher" : "[variables('imagePublisher')]",
+						"offer" : "[variables('imageOffer')]",
+						"sku" : "[variables('imageSKU')]",
+						"version" : "latest"
+					},
+					"osDisk" : {
+						"name" : "osdisk",
+						"vhd" : {
+							"uri" : "[concat('http://',variables('syncStorageAccountName'),'.blob.core.windows.net/vhds/myvmosdisk.vhd')]"
+						},
+						"caching" : "ReadWrite",
+						"createOption" : "FromImage"
+					},
+					"dataDisks" : [{
+							"name" : "myvm-data-disk1",
+							"vhd" : {
+								"Uri" : "[concat('http://',variables('syncStorageAccountName'),'.blob.core.windows.net/vhds/myvm-data-disk1.vhd')]"
+							},
+							"caching" : "None",
+							"createOption" : "Empty",
+							"diskSizeGB" : "1000",
+							"lun" : 0
+						}
+					]
+				},
+				"networkProfile" : {
+					"networkInterfaces" : [{
+							"id" : "[resourceId('Microsoft.Network/networkInterfaces',variables('syncNICName'))]"
+						}
+					]
+				},
+				"diagnosticsProfile" : {
+					"bootDiagnostics" : {
+						"enabled" : "true",
+						"storageUri" : "[concat('http://',variables('syncStorageAccountName'),'.blob.core.windows.net')]"
+					}
+				}
+			},
+			"resources" : [{
+					"apiVersion" : "[variables('apiVersion')]",
+					"type" : "Microsoft.Compute/virtualMachines/extensions",
+					"name" : "[concat(parameters('syncVMName'),'/joinDomain')]",
+					"location" : "[resourceGroup().location]",
+					"dependsOn" : [
+						"[concat('Microsoft.Compute/virtualMachines/', parameters('syncVMName'))]",
+						"[concat('Microsoft.Compute/virtualMachines/', parameters('dcVMName'),'/extensions/createADForest')]"
+					],
+					"properties" : {
+						"publisher" : "Microsoft.Compute",
+						"type" : "JsonADDomainExtension",
+						"typeHandlerVersion" : "1.0",
+						"settings" : {
+							"Name" : "[parameters('domainName')]",
+							"OUPath" : "[parameters('ouPath')]",
+							"User" : "[concat(parameters('domainName'), '\\', parameters('domainUsername'))]",
+							"Restart" : "true",
+							"Options" : "[parameters('domainJoinOptions')]"
+						},
+						"protectedsettings" : {
+							"Password" : "[parameters('domainPassword')]"
+						}
+					}
+				}, {		
+					"apiVersion" : "2015-05-01-preview",
+					"type" : "Microsoft.Compute/virtualMachines/extensions",
+					"name" : "[concat(parameters('syncVMName'),'/getlabfiles')]",
+					"location" : "[resourceGroup().location]",
+					"dependsOn" : [
+						"[concat('Microsoft.Compute/virtualMachines/', parameters('syncVMName'))]",
+						"[concat('Microsoft.Compute/virtualMachines/', parameters ('syncVMName'), '/extensions/joinDomain')]"
+					],
+					"properties" : {
+						"publisher" : "Microsoft.Powershell",
+						"type" : "DSC",
+						"typeHandlerVersion" : "2.8",
+						"settings" : {
+							"ModulesUrl" : "[concat(parameters('assetLocation'),'getlabfiles.zip')]",
+							"ConfigurationFunction" : "getlabfiles.ps1\\getlabfiles",
+							"Properties" : {
+								"MachineName" : "[parameters('syncVMName')]"
+							}
+						},
+						"protectedSettings" : null
+					}
+				}
+			]
+		}, {
+			"name" : "UpdateVNetDNS",
+			"type" : "Microsoft.Resources/deployments",
+			"apiVersion" : "2015-01-01",
+			"dependsOn" : [
+				"[concat('Microsoft.Compute/virtualMachines/', parameters('dcVMName'),'/extensions/createADForest')]"
+			],
+			"properties" : {
+				"mode" : "Incremental",
+				"templateLink" : {
+					"uri" : "[variables('vnetwithDNSTemplateUri')]",
+					"contentVersion" : "1.0.0.0"
+				},
+				"parameters" : {
+					"location" : {
+						"value" : "[parameters('location')]"
+					},
+					"virtualNetworkName" : {
+						"value" : "[parameters('virtualNetworkName')]"
+					},
+					"virtualNetworkAddressRange" : {
+						"value" : "[parameters('virtualNetworkAddressRange')]"
+					},
+					"subnet1Name" : {
+						"value" : "[parameters('feSubnetName')]"
+					},
+					"subnet1Range" : {
+						"value" : "[parameters('feSubnet')]"
+					},
+					"subnet2Name" : {
+						"value" : "[parameters('labSubnetName')]"
+					},
+					"subnet2Range" : {
+						"value" : "[parameters('labSubnet')]"
+					},
+					"DNSServerAddress" : {
+						"value" : [
+							"[variables('dcBEIP')]"
+						]
+					}
+				}
+			}
+		}
+	]
+}
