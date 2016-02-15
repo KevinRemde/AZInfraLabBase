@@ -15,21 +15,9 @@
 				"description" : "The region to deploy the resources into"
 			}
 		},
-		"adminDNSVMName": {
-			"type" : "string",
-			"metadata" : {
-				"description" : "Unique DNS prefix for the ADMIN machine"
-			}
-		},
-		"adminVMSize" : {
-			"type" : "string",
-			"defaultValue" : "Standard_D2",
-			"metadata" : {
-				"description" : "The size of the virtual machines"
-			}
-		},
 		"dcDNSVMName" : {
 			"type" : "string",
+			"defaultValue" : "dckar10",
 			"metadata" : {
 				"description" : "Unique DNS prefix for the DC"
 			}
@@ -38,11 +26,26 @@
 			"type" : "string",
 			"defaultValue" : "Standard_D2",
 			"metadata" : {
-				"description" : "The size of the virtual machines"
+				"description" : "The size of the virtual machine"
+			}
+		},
+		"adminDNSVMName": {
+			"type" : "string",
+			"defaultValue" : "adminkar10",
+			"metadata" : {
+				"description" : "Unique DNS prefix for the ADMIN machine"
+			}
+		},
+		"adminVMSize" : {
+			"type" : "string",
+			"defaultValue" : "Standard_D2",
+			"metadata" : {
+				"description" : "The size of the virtual machine"
 			}
 		},
 		"edgeDNSVMName": {
 			"type" : "string",
+			"defaultValue" : "edgekar10",
 			"metadata" : {
 				"description" : "Unique DNS prefix for the EDGE"
 			}
@@ -51,11 +54,12 @@
 			"type" : "string",
 			"defaultValue" : "Standard_D2",
 			"metadata" : {
-				"description" : "The size of the virtual machines"
+				"description" : "The size of the virtual machine"
 			}
 		},
 		"syncDNSVMName": {
 			"type" : "string",
+			"defaultValue" : "synckar10",
 			"metadata" : {
 				"description" : "Unique DNS prefix for the SYNC machine"
 			}
@@ -64,7 +68,7 @@
 			"type" : "string",
 			"defaultValue" : "Standard_D2",
 			"metadata" : {
-				"description" : "The size of the virtual machines"
+				"description" : "The size of the virtual machine"
 			}
 		},
 		"domainName" : {
@@ -160,7 +164,7 @@
 			"properties" : {
 				"publicIPAllocationMethod" : "Dynamic",
 				"dnsSettings" : {
-					"domainNameLabel" : "[variables('dcDNSVMName')]"
+					"domainNameLabel" : "[parameters('dcDNSVMName')]"
 				}
 			}
 		}, {
@@ -171,7 +175,7 @@
 			"properties" : {
 				"publicIPAllocationMethod" : "Dynamic",
 				"dnsSettings" : {
-					"domainNameLabel" : "[variables('adminDNSVMName')]"
+					"domainNameLabel" : "[parameters('adminDNSVMName')]"
 				}
 			}
 		}, {
@@ -182,7 +186,7 @@
 			"properties" : {
 				"publicIPAllocationMethod" : "Dynamic",
 				"dnsSettings" : {
-					"domainNameLabel" : "[variables('edgeDNSVMName')]"
+					"domainNameLabel" : "[parameters('edgeDNSVMName')]"
 				}
 			}
 		}, {
@@ -193,7 +197,7 @@
 			"properties" : {
 				"publicIPAllocationMethod" : "Dynamic",
 				"dnsSettings" : {
-					"domainNameLabel" : "[variables('syncDNSVMName')]"
+					"domainNameLabel" : "[parameters('syncDNSVMName')]"
 				}
 			}
 		}, {
