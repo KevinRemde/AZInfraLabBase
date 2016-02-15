@@ -77,6 +77,13 @@
 				"description" : "The FQDN of the AD domain"
 			}
 		},
+		"ouPath" : {
+			"type": "string",
+			"metadata" : {
+				"description" : "OU path for the added member servers"
+			},
+			"defaultValue" : ""
+		},
 		"domainUsername" : {
 			"type" : "string",
 			"metadata" : {
@@ -147,7 +154,6 @@
 		"vnetID" : "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
 		"feSubnetId" : "[concat(variables('vnetID'),'/subnets/', variables('feSubnetName'))]",
 		"labSubnetId" : "[concat(variables('vnetID'),'/subnets/', variables('labSubnetName'))]",
-		"ouPath" : "",
 		"domainJoinOptions" : 3,
 		"dcDataDisk" : "dcDataDisk",
 		"dcDataDiskSize" : 1000,
@@ -572,7 +578,7 @@
 						"typeHandlerVersion" : "1.0",
 						"settings" : {
 							"Name" : "[parameters('domainName')]",
-							"OUPath" : "[variables('ouPath')]",
+							"OUPath" : "[parameters('ouPath')]",
 							"User" : "[concat(parameters('domainName'), '\\', parameters('domainUsername'))]",
 							"Restart" : "true",
 							"Options" : "[parameters('domainJoinOptions')]"
@@ -687,7 +693,7 @@
 						"typeHandlerVersion" : "1.0",
 						"settings" : {
 							"Name" : "[parameters('domainName')]",
-							"OUPath" : "[variables('ouPath')]",
+							"OUPath" : "[parameters('ouPath')]",
 							"User" : "[concat(parameters('domainName'), '\\', parameters('domainUsername'))]",
 							"Restart" : "true",
 							"Options" : "[parameters('domainJoinOptions')]"
@@ -793,7 +799,7 @@
 						"typeHandlerVersion" : "1.0",
 						"settings" : {
 							"Name" : "[parameters('domainName')]",
-							"OUPath" : "[variables('ouPath')]",
+							"OUPath" : "[parameters('ouPath')]",
 							"User" : "[concat(parameters('domainName'), '\\', parameters('domainUsername'))]",
 							"Restart" : "true",
 							"Options" : "[parameters('domainJoinOptions')]"
