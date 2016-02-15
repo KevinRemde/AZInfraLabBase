@@ -15,80 +15,12 @@
 				"description" : "The region to deploy the resources into"
 			}
 		},
-		"virtualNetworkName" : {
-			"type" : "string",
-			"metadata" : {
-				"description" : "Existing VNET that contains the domain controller"
-			},
-			"defaultValue": "labVNet"
-		},
-		"virtualNetworkAddressRange" : {
-			"type" : "string",
-			"metadata" : {
-				"description" : "The address range of the new VNET in CIDR format"
-			},
-			"defaultValue" : "192.168.0.0/16"
-		},
-		"labSubnetName" : {
-			"type" : "string",
-			"metadata" : {
-				"description" : "The name of the subnet created in the new VNET"
-			},
-			"defaultValue" : "labSubnet"
-		},
-		"labSubnet" : {
-			"type" : "string",
-			"metadata" : {
-				"description" : "The address range of the subnet created in the new VNET"
-			},
-			"defaultValue" : "192.168.10.0/24"
-		},
-		"feSubnetName" : {
-			"type" : "string",
-			"metadata" : {
-				"description" : "The name of the subnet created in the new VNET"
-			},
-			"defaultValue" : "feSubnet"
-		},
-		"feSubnet" : {
-			"type" : "string",
-			"metadata" : {
-				"description" : "The address range of the subnet created in the new VNET"
-			},
-			"defaultValue" : "192.168.200.0/24"
-		},
-		"dcDNSVMName" : {
-			"type" : "string",
-			"metadata" : {
-				"description" : "Unique public DNS prefix for the deployment. The fqdn will look something like '<dnsname>.westus.cloudapp.azure.com'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to '^[a-z][a-z0-9-]{1,61}[a-z0-9]$'."
-			}
-		},
-		"dcVMName" : {
-			"type" : "string",
-			"metadata" : {
-				"description" : "Name of the VM being created."
-			},
-			"defaultValue" : "DC"
-		},
 		"dcVMSize" : {
 			"type" : "string",
 			"defaultValue" : "Standard_D2",
 			"metadata" : {
 				"description" : "The size of the virtual machines"
 			}
-		},
-		"adminDNSVMName" : {
-			"type" : "string",
-			"metadata" : {
-				"description" : "Unique public DNS prefix for the deployment. The fqdn will look something like '<dnsname>.westus.cloudapp.azure.com'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to '^[a-z][a-z0-9-]{1,61}[a-z0-9]$'."
-			}
-		},
-		"adminVMName" : {
-			"type" : "string",
-			"metadata" : {
-				"description" : "Name of the VM being created."
-			},
-			"defaultValue" : "ADMIN"
 		},
 		"adminVMSize" : {
 			"type" : "string",
@@ -97,38 +29,12 @@
 				"description" : "The size of the virtual machines"
 			}
 		},
-		"edgeDNSVMName" : {
-			"type" : "string",
-			"metadata" : {
-				"description" : "Unique public DNS prefix for the deployment. The fqdn will look something like '<dnsname>.westus.cloudapp.azure.com'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to '^[a-z][a-z0-9-]{1,61}[a-z0-9]$'."
-			}
-		},
-		"edgeVMName" : {
-			"type" : "string",
-			"metadata" : {
-				"description" : "Name of the VM being created."
-			},
-			"defaultValue" : "EDGE"
-		},
 		"edgeVMSize" : {
 			"type" : "string",
 			"defaultValue" : "Standard_D2",
 			"metadata" : {
 				"description" : "The size of the virtual machines"
 			}
-		},
-		"syncDNSVMName" : {
-			"type" : "string",
-			"metadata" : {
-				"description" : "Unique public DNS prefix for the deployment. The fqdn will look something like '<dnsname>.westus.cloudapp.azure.com'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to '^[a-z][a-z0-9-]{1,61}[a-z0-9]$'."
-			}
-		},
-		"syncVMName" : {
-			"type" : "string",
-			"metadata" : {
-				"description" : "Name of the VM being created."
-			},
-			"defaultValue" : "SYNC"
 		},
 		"syncVMSize" : {
 			"type" : "string",
@@ -156,20 +62,6 @@
 				"description" : "The password forthe Administrator account of the new VM and Domain"
 			}
 		},
-		"ouPath" : {
-			"type" : "string",
-			"defaultValue" : "",
-			"metadata" : {
-				"description" : "Specifies an organizational unit (OU) for the domain account. Enter the full distinguished name of the OU in quotation marks. Example: 'OU=testOU; DC=domain; DC=Domain; DC=com'"
-			}
-		},
-		"domainJoinOptions" : {
-			"type" : "int",
-			"defaultValue" : 3,
-			"metadata" : {
-				"description" : "Set of bit flags that define the join options. Default value of 3 is a combination of NETSETUP_JOIN_DOMAIN (0x00000001) & NETSETUP_ACCT_CREATE (0x00000002) i.e. will join the domain and create the account on the domain. For more information see https://msdn.microsoft.com/en-us/library/aa392154(v=vs.85).aspx"
-			}
-		},
 		"vmUserName" : {
 			"type" : "string",
 			"metadata" : {
@@ -183,23 +75,54 @@
 				"description" : "The password for the administrator account of the new VM and the domain"
 			}
 		},
+		"dcDNSVMName": {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Unique DNS prefix for the DC"
+			}
+		),
+		"adminDNSVMName": {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Unique DNS prefix for the ADMIN machine"
+			}
+		),
+		"edgeDNSVMName": {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Unique DNS prefix for the EDGE"
+			}
+		),
+		"syncDNSVMName": {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Unique DNS prefix for the SYNC machine"
+			}
+		),
 		"assetLocation" : {
 			"type" : "string",
 			"metadata" : {
 				"description" : "The location of resources such as templates and DSC modules that the script is dependent"
 			},
-			"defaultValue" : "https://rawgit.com/KevinRemde/AZInfraLabBase/master/"
+			"defaultValue": "https://rawgit.com/KevinRemde/AZInfraLabBase/master/"
 		}
 	},
 	"variables" : {
-		"dcStorageAccountName" : "[concat(uniquestring(resourceGroup().id), parameters('dcVMName'))]",
-		"adminStorageAccountName" : "[concat(uniquestring(resourceGroup().id), parameters('adminVMName'))]",
-		"edgeStorageAccountName" : "[concat(uniquestring(resourceGroup().id), parameters('edgeVMName'))]",
-		"syncStorageAccountName" : "[concat(uniquestring(resourceGroup().id), parameters('syncVMName'))]",
+		"dcVMName": "DC",
+		"adminVMName": "ADMIN",
+		"edgeVMName": "EDGE",
+		"syncVMName": "SYNC",
+		"dcStorageAccountName" : "[concat(uniquestring(resourceGroup().id), variables('dcVMName'))]",
+		"adminStorageAccountName" : "[concat(uniquestring(resourceGroup().id), variables('adminVMName'))]",
+		"edgeStorageAccountName" : "[concat(uniquestring(resourceGroup().id), variables('edgeVMName'))]",
+		"syncStorageAccountName" : "[concat(uniquestring(resourceGroup().id), variables('syncVMName'))]",
 		"imagePublisher" : "MicrosoftWindowsServer",
 		"imageOffer" : "WindowsServer",
 		"imageSKU" : "2012-R2-Datacenter",
 		"apiVersion" : "2015-06-15",
+		"virtualNetworkName" : "labVNet",
+		"feSubnetName" : "feSubnet",
+		"labSubnetName" : "labSubnet",
 		"dcNICName" : "dcNIC",
 		"adminNICName" : "adminNIC",
 		"edgeBENICName" : "edgeBENIC",
@@ -209,14 +132,19 @@
 		"adminPIPName" : "adminPublicIP",
 		"edgePIPName" : "edgePublicIP",
 		"syncPIPName" : "syncPublicIP",
+		"virtualNetworkAddressRange" : "192.168.0.0/16",
+		"labSubnet" : "192.168.10.0/24",
+		"feSubnet" : "192.168.200.0/24",
 		"dcBEIP": "192.168.10.4",
 		"adminBEIP": "192.168.10.20", 
 		"edgeBEIP": "192.168.10.254",
 		"edgeFEIP": "192.168.200.4",
 		"syncBEIP": "192.168.10.10",
-		"vnetID" : "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-		"feSubnetId" : "[concat(variables('vnetID'),'/subnets/', parameters('feSubnetName'))]",
-		"labSubnetId" : "[concat(variables('vnetID'),'/subnets/', parameters('labSubnetName'))]",
+		"vnetID" : "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
+		"feSubnetId" : "[concat(variables('vnetID'),'/subnets/', variables('feSubnetName'))]",
+		"labSubnetId" : "[concat(variables('vnetID'),'/subnets/', variables('labSubnetName'))]",
+		"ouPath" : "",
+		"domainJoinOptions" : 3,
 		"dcDataDisk" : "dcDataDisk",
 		"dcDataDiskSize" : 1000,
 		"vnetTemplateUri" : "[concat(parameters('assetLocation'),'vnet.json')]",
@@ -232,7 +160,7 @@
 			"properties" : {
 				"publicIPAllocationMethod" : "Dynamic",
 				"dnsSettings" : {
-					"domainNameLabel" : "[parameters('dcDNSVMName')]"
+					"domainNameLabel" : "[variables('dcDNSVMName')]"
 				}
 			}
 		}, {
@@ -243,7 +171,7 @@
 			"properties" : {
 				"publicIPAllocationMethod" : "Dynamic",
 				"dnsSettings" : {
-					"domainNameLabel" : "[parameters('adminDNSVMName')]"
+					"domainNameLabel" : "[variables('adminDNSVMName')]"
 				}
 			}
 		}, {
@@ -254,7 +182,7 @@
 			"properties" : {
 				"publicIPAllocationMethod" : "Dynamic",
 				"dnsSettings" : {
-					"domainNameLabel" : "[parameters('edgeDNSVMName')]"
+					"domainNameLabel" : "[variables('edgeDNSVMName')]"
 				}
 			}
 		}, {
@@ -265,7 +193,7 @@
 			"properties" : {
 				"publicIPAllocationMethod" : "Dynamic",
 				"dnsSettings" : {
-					"domainNameLabel" : "[parameters('syncDNSVMName')]"
+					"domainNameLabel" : "[variables('syncDNSVMName')]"
 				}
 			}
 		}, {
@@ -301,7 +229,7 @@
 				"accountType" : "Standard_LRS"
 			}
 		}, {
-			"name" : "[parameters('virtualNetworkName')]",
+			"name" : "[variables('virtualNetworkName')]",
 			"type" : "Microsoft.Resources/deployments",
 			"apiVersion" : "2015-01-01",
 			"properties" : {
@@ -315,22 +243,22 @@
 						"value" : "[parameters('location')]"
 					},
 					"virtualNetworkName" : {
-						"value" : "[parameters('virtualNetworkName')]"
+						"value" : "[variables('virtualNetworkName')]"
 					},
 					"virtualNetworkAddressRange" : {
-						"value" : "[parameters('virtualNetworkAddressRange')]"
+						"value" : "[variables('virtualNetworkAddressRange')]"
 					},
 					"subnet1Name" : {
-						"value" : "[parameters('feSubnetName')]"
+						"value" : "[variables('feSubnetName')]"
 					},
 					"subnet1Range" : {
-						"value" : "[parameters('feSubnet')]"
+						"value" : "[variables('feSubnet')]"
 					},
 					"subnet2Name" : {
-						"value" : "[parameters('labSubnetName')]"
+						"value" : "[variables('labSubnetName')]"
 					},
 					"subnet2Range" : {
-						"value" : "[parameters('labSubnet')]"
+						"value" : "[variables('labSubnet')]"
 					}
 				}
 			}
@@ -343,7 +271,7 @@
 				"displayName" : "NetworkInterface - DC"
 			},
 			"dependsOn" : [
-				"[concat('Microsoft.Resources/deployments/', parameters('virtualNetworkName'))]",
+				"[concat('Microsoft.Resources/deployments/', variables('virtualNetworkName'))]",
 				"[concat('Microsoft.Network/publicIPAddresses/', variables('dcPIPName'))]"
 			],
 			"properties" : {
@@ -371,7 +299,7 @@
 				"displayName" : "NetworkInterface - EDGE FE"
 			},
 			"dependsOn" : [
-				"[concat('Microsoft.Resources/deployments/', parameters('virtualNetworkName'))]",
+				"[concat('Microsoft.Resources/deployments/', variables('virtualNetworkName'))]",
 				"[concat('Microsoft.Network/publicIPAddresses/', variables('edgePIPName'))]"
 			],
 			"properties" : {
@@ -399,7 +327,7 @@
 				"displayName" : "NetworkInterface - ADMIN"
 			},
 			"dependsOn" : [
-				"[concat('Microsoft.Resources/deployments/', parameters('virtualNetworkName'))]"
+				"[concat('Microsoft.Resources/deployments/', variables('virtualNetworkName'))]"
 			],
 			"properties" : {
 				"ipConfigurations" : [{
@@ -431,7 +359,7 @@
 				"displayName" : "NetworkInterface - EDGE BE"
 			},
 			"dependsOn" : [
-				"[concat('Microsoft.Resources/deployments/', parameters('virtualNetworkName'))]"
+				"[concat('Microsoft.Resources/deployments/', variables('virtualNetworkName'))]"
 			],
 			"properties" : {
 				"ipConfigurations" : [{
@@ -460,7 +388,7 @@
 				"displayName" : "NetworkInterface - SYNC"
 			},
 			"dependsOn" : [
-				"[concat('Microsoft.Resources/deployments/', parameters('virtualNetworkName'))]"
+				"[concat('Microsoft.Resources/deployments/', variables('virtualNetworkName'))]"
 			],
 			"properties" : {
 				"ipConfigurations" : [{
@@ -486,7 +414,7 @@
 		}, {
 			"type" : "Microsoft.Compute/virtualMachines",
 			"apiVersion" : "2015-05-01-preview",
-			"name" : "[parameters('dcVMName')]",
+			"name" : "[variables('dcVMName')]",
 			"location" : "[resourceGroup().location]",
 			"dependsOn" : [
 				"[resourceId('Microsoft.Storage/storageAccounts',variables('dcStorageAccountName'))]",
@@ -497,7 +425,7 @@
 					"vmSize" : "[parameters('dcVMSize')]"
 				},
 				"osProfile" : {
-					"computerName" : "[parameters('dcVMName')]",
+					"computerName" : "[variables('dcVMName')]",
 					"adminUsername" : "[parameters('domainUsername')]",
 					"adminPassword" : "[parameters('domainPassword')]"
 				},
@@ -520,7 +448,7 @@
 							"vhd" : {
 								"uri" : "[concat('http://',variables('dcStorageAccountName'),'.blob.core.windows.net/vhds/', variables('dcDataDisk'),'-1.vhd')]"
 							},
-							"name" : "[concat(parameters('dcVMName'),'-data-disk1')]",
+							"name" : "[concat(variables('dcVMName'),'-data-disk1')]",
 							"caching" : "None",
 							"createOption" : "empty",
 							"diskSizeGB" : "[variables('dcDataDiskSize')]",
@@ -537,11 +465,11 @@
 			},
 			"resources" : [{
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
-					"name" : "[concat(parameters('dcVMName'),'/createADForest')]",
+					"name" : "[concat(variables('dcVMName'),'/createADForest')]",
 					"apiVersion" : "2015-05-01-preview",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
-						"[resourceId('Microsoft.Compute/virtualMachines', parameters('dcVMName'))]"
+						"[resourceId('Microsoft.Compute/virtualMachines', variables('dcVMName'))]"
 					],
 					"properties" : {
 						"publisher" : "Microsoft.Powershell",
@@ -570,7 +498,7 @@
 		}, {
 			"apiVersion" : "[variables('apiVersion')]",
 			"type" : "Microsoft.Compute/virtualMachines",
-			"name" : "[parameters('adminVMName')]",
+			"name" : "[variables('adminVMName')]",
 			"location" : "[resourceGroup().location]",
 			"dependsOn" : [
 				"[resourceId('Microsoft.Storage/storageAccounts',variables('adminStorageAccountName'))]",
@@ -581,7 +509,7 @@
 					"vmSize" : "[parameters('adminVMSize')]"
 				},
 				"osProfile" : {
-					"computerName" : "[parameters('adminVMName')]",
+					"computerName" : "[variables('adminVMName')]",
 					"adminUsername" : "[parameters('vmUserName')]",
 					"adminPassword" : "[parameters('vmPassword')]"
 				},
@@ -628,11 +556,11 @@
 			"resources" : [{
 					"apiVersion" : "[variables('apiVersion')]",
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
-					"name" : "[concat(parameters('adminVMName'),'/joinDomain')]",
+					"name" : "[concat(variables('adminVMName'),'/joinDomain')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
-						"[concat('Microsoft.Compute/virtualMachines/', parameters('adminVMName'))]",
-						"[concat('Microsoft.Compute/virtualMachines/', parameters('dcVMName'),'/extensions/createADForest')]"
+						"[concat('Microsoft.Compute/virtualMachines/', variables('adminVMName'))]",
+						"[concat('Microsoft.Compute/virtualMachines/', variables('dcVMName'),'/extensions/createADForest')]"
 					],
 					"properties" : {
 						"publisher" : "Microsoft.Compute",
@@ -652,11 +580,11 @@
 				}, {		
 					"apiVersion" : "2015-05-01-preview",
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
-					"name" : "[concat(parameters('adminVMName'),'/getlabfiles')]",
+					"name" : "[concat(variables('adminVMName'),'/getlabfiles')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
-						"[concat('Microsoft.Compute/virtualMachines/', parameters('adminVMName'))]",
-						"[concat('Microsoft.Compute/virtualMachines/', parameters ('adminVMName'), '/extensions/joinDomain')]"
+						"[concat('Microsoft.Compute/virtualMachines/', variables('adminVMName'))]",
+						"[concat('Microsoft.Compute/virtualMachines/', variables('adminVMName'), '/extensions/joinDomain')]"
 					],
 					"properties" : {
 						"publisher" : "Microsoft.Powershell",
@@ -666,7 +594,7 @@
 							"ModulesUrl" : "[concat(parameters('assetLocation'),'getlabfiles.zip')]",
 							"ConfigurationFunction" : "getlabfiles.ps1\\getlabfiles",
 							"Properties" : {
-								"MachineName" : "[parameters('adminVMName')]"
+								"MachineName" : "[variables('adminVMName')]"
 							}
 						},
 						"protectedSettings" : null
@@ -676,7 +604,7 @@
 		}, {
 			"apiVersion" : "[variables('apiVersion')]",
 			"type" : "Microsoft.Compute/virtualMachines",
-			"name" : "[parameters('edgeVMName')]",
+			"name" : "[variables('edgeVMName')]",
 			"location" : "[resourceGroup().location]",
 			"dependsOn" : [
 				"[resourceId('Microsoft.Storage/storageAccounts',variables('edgestorageAccountName'))]",
@@ -688,7 +616,7 @@
 					"vmSize" : "[parameters('edgeVMSize')]"
 				},
 				"osProfile" : {
-					"computerName" : "[parameters('edgeVMName')]",
+					"computerName" : "[variables('edgeVMName')]",
 					"adminUsername" : "[parameters('vmUserName')]",
 					"adminPassword" : "[parameters('vmPassword')]"
 				},
@@ -743,11 +671,11 @@
 			"resources" : [{
 					"apiVersion" : "[variables('apiVersion')]",
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
-					"name" : "[concat(parameters('edgeVMName'),'/joinDomain')]",
+					"name" : "[concat(variables('edgeVMName'),'/joinDomain')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
-						"[concat('Microsoft.Compute/virtualMachines/', parameters('edgeVMName'))]",
-						"[concat('Microsoft.Compute/virtualMachines/', parameters('dcVMName'),'/extensions/createADForest')]"
+						"[concat('Microsoft.Compute/virtualMachines/', variables('edgeVMName'))]",
+						"[concat('Microsoft.Compute/virtualMachines/', variables('dcVMName'),'/extensions/createADForest')]"
 					],
 					"properties" : {
 						"publisher" : "Microsoft.Compute",
@@ -767,11 +695,11 @@
 				}, {		
 					"apiVersion" : "2015-05-01-preview",
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
-					"name" : "[concat(parameters('edgeVMName'),'/getlabfiles')]",
+					"name" : "[concat(variables('edgeVMName'),'/getlabfiles')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
-						"[concat('Microsoft.Compute/virtualMachines/', parameters('edgeVMName'))]",
-						"[concat('Microsoft.Compute/virtualMachines/', parameters ('edgeVMName'), '/extensions/joinDomain')]"
+						"[concat('Microsoft.Compute/virtualMachines/', variables('edgeVMName'))]",
+						"[concat('Microsoft.Compute/virtualMachines/', variables('edgeVMName'), '/extensions/joinDomain')]"
 					],
 					"properties" : {
 						"publisher" : "Microsoft.Powershell",
@@ -781,7 +709,7 @@
 							"ModulesUrl" : "[concat(parameters('assetLocation'),'getlabfiles.zip')]",
 							"ConfigurationFunction" : "getlabfiles.ps1\\getlabfiles",
 							"Properties" : {
-								"MachineName" : "[parameters('edgeVMName')]"
+								"MachineName" : "[variables('edgeVMName')]"
 							}
 						},
 						"protectedSettings" : null
@@ -791,7 +719,7 @@
 		}, {
 			"apiVersion" : "[variables('apiVersion')]",
 			"type" : "Microsoft.Compute/virtualMachines",
-			"name" : "[parameters('syncVMName')]",
+			"name" : "[variables('syncVMName')]",
 			"location" : "[resourceGroup().location]",
 			"dependsOn" : [
 				"[resourceId('Microsoft.Storage/storageAccounts',variables('syncStorageAccountName'))]",
@@ -802,7 +730,7 @@
 					"vmSize" : "[parameters('syncVMSize')]"
 				},
 				"osProfile" : {
-					"computerName" : "[parameters('syncVMName')]",
+					"computerName" : "[variables('syncVMName')]",
 					"adminUsername" : "[parameters('vmUserName')]",
 					"adminPassword" : "[parameters('vmPassword')]"
 				},
@@ -849,11 +777,11 @@
 			"resources" : [{
 					"apiVersion" : "[variables('apiVersion')]",
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
-					"name" : "[concat(parameters('syncVMName'),'/joinDomain')]",
+					"name" : "[concat(variables('syncVMName'),'/joinDomain')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
-						"[concat('Microsoft.Compute/virtualMachines/', parameters('syncVMName'))]",
-						"[concat('Microsoft.Compute/virtualMachines/', parameters('dcVMName'),'/extensions/createADForest')]"
+						"[concat('Microsoft.Compute/virtualMachines/', variables('syncVMName'))]",
+						"[concat('Microsoft.Compute/virtualMachines/', variables('dcVMName'),'/extensions/createADForest')]"
 					],
 					"properties" : {
 						"publisher" : "Microsoft.Compute",
@@ -873,11 +801,11 @@
 				}, {		
 					"apiVersion" : "2015-05-01-preview",
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
-					"name" : "[concat(parameters('syncVMName'),'/getlabfiles')]",
+					"name" : "[concat(variables('syncVMName'),'/getlabfiles')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
-						"[concat('Microsoft.Compute/virtualMachines/', parameters('syncVMName'))]",
-						"[concat('Microsoft.Compute/virtualMachines/', parameters ('syncVMName'), '/extensions/joinDomain')]"
+						"[concat('Microsoft.Compute/virtualMachines/', variables('syncVMName'))]",
+						"[concat('Microsoft.Compute/virtualMachines/', variables('syncVMName'), '/extensions/joinDomain')]"
 					],
 					"properties" : {
 						"publisher" : "Microsoft.Powershell",
@@ -887,7 +815,7 @@
 							"ModulesUrl" : "[concat(parameters('assetLocation'),'getlabfiles.zip')]",
 							"ConfigurationFunction" : "getlabfiles.ps1\\getlabfiles",
 							"Properties" : {
-								"MachineName" : "[parameters('syncVMName')]"
+								"MachineName" : "[variables('syncVMName')]"
 							}
 						},
 						"protectedSettings" : null
@@ -899,7 +827,7 @@
 			"type" : "Microsoft.Resources/deployments",
 			"apiVersion" : "2015-01-01",
 			"dependsOn" : [
-				"[concat('Microsoft.Compute/virtualMachines/', parameters('dcVMName'),'/extensions/createADForest')]"
+				"[concat('Microsoft.Compute/virtualMachines/', variables('dcVMName'),'/extensions/createADForest')]"
 			],
 			"properties" : {
 				"mode" : "Incremental",
@@ -912,22 +840,22 @@
 						"value" : "[parameters('location')]"
 					},
 					"virtualNetworkName" : {
-						"value" : "[parameters('virtualNetworkName')]"
+						"value" : "[variables('virtualNetworkName')]"
 					},
 					"virtualNetworkAddressRange" : {
-						"value" : "[parameters('virtualNetworkAddressRange')]"
+						"value" : "[variables('virtualNetworkAddressRange')]"
 					},
 					"subnet1Name" : {
-						"value" : "[parameters('feSubnetName')]"
+						"value" : "[variables('feSubnetName')]"
 					},
 					"subnet1Range" : {
-						"value" : "[parameters('feSubnet')]"
+						"value" : "[variables('feSubnet')]"
 					},
 					"subnet2Name" : {
-						"value" : "[parameters('labSubnetName')]"
+						"value" : "[variables('labSubnetName')]"
 					},
 					"subnet2Range" : {
-						"value" : "[parameters('labSubnet')]"
+						"value" : "[variables('labSubnet')]"
 					},
 					"DNSServerAddress" : {
 						"value" : [

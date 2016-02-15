@@ -3,49 +3,16 @@
 	"contentVersion" : "1.0.0.0",
 	"parameters" : {
 		"location": {
-			"value" : "West US"
-		},
-		"virtualNetworkName" : {
-			"value" : "labVNet"
-		},
-		"feSubnetName" : {
-			"value" : "feSubnet"
-		},
-		"labSubnetName" : {
-			"value" : "labSubnet"
-		},
-		"dcDNSVMName" : {
-			"value" : "kardc01"
-		},
-		"dcVMName" : {
-			"value" : "DC"
+			"value" : "East US"
 		},
 		"dcVMSize" : {
 			"value" : "Standard_D2"
 		},
-		"adminDNSVMName" : {
-			"value" : "karadmin01"
-		},
-		"adminVMName" : {
-			"value" : "ADMIN"
-		},
 		"adminVMSize" : {
 			"value" : "Standard_D2"
 		},
-		"edgeDNSVMName" : {
-			"value" : "karedge01"
-		},
-		"edgeVMName" : {
-			"value" : "EDGE"
-		},
 		"edgeVMSize" : {
 			"value" : "Standard_D2"
-		},
-		"syncDNSVMName" : {
-			"value" : "karsync01"
-		},
-		"syncVMName" : {
-			"value" : "SYNC"
 		},
 		"syncVMSize" : {
 			"value" : "Standard_D2"
@@ -59,17 +26,14 @@
 		"domainPassword" : {
 			"value" : "Passw0rd!"
 		},
-		"ouPath" : {
-			"value" : ""
-		},
-		"domainJoinOptions" : {
-			"value" : 3
-		},
 		"vmUsername" : {
 			"value" : "labadmin"
 		},
 		"vmPassword" : {
 			"value" : "Passw0rd!"
+		},
+		"assetLocation" : {
+			"value" : "https://rawgit.com/KevinRemde/AZInfraLabBase/master/"
 		}
 	}
 }
