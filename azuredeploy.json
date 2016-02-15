@@ -15,11 +15,23 @@
 				"description" : "The region to deploy the resources into"
 			}
 		},
+		"dcDNSVMName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Unique DNS prefix for the DC"
+			}
+		},
 		"dcVMSize" : {
 			"type" : "string",
 			"defaultValue" : "Standard_D2",
 			"metadata" : {
 				"description" : "The size of the virtual machines"
+			}
+		},
+		"adminDNSVMName": {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Unique DNS prefix for the ADMIN machine"
 			}
 		},
 		"adminVMSize" : {
@@ -29,11 +41,23 @@
 				"description" : "The size of the virtual machines"
 			}
 		},
+		"edgeDNSVMName": {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Unique DNS prefix for the EDGE"
+			}
+		},
 		"edgeVMSize" : {
 			"type" : "string",
 			"defaultValue" : "Standard_D2",
 			"metadata" : {
 				"description" : "The size of the virtual machines"
+			}
+		},
+		"syncDNSVMName": {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Unique DNS prefix for the SYNC machine"
 			}
 		},
 		"syncVMSize" : {
@@ -75,30 +99,6 @@
 				"description" : "The password for the administrator account of the new VM and the domain"
 			}
 		},
-		"dcDNSVMName": {
-			"type" : "string",
-			"metadata" : {
-				"description" : "Unique DNS prefix for the DC"
-			}
-		),
-		"adminDNSVMName": {
-			"type" : "string",
-			"metadata" : {
-				"description" : "Unique DNS prefix for the ADMIN machine"
-			}
-		),
-		"edgeDNSVMName": {
-			"type" : "string",
-			"metadata" : {
-				"description" : "Unique DNS prefix for the EDGE"
-			}
-		),
-		"syncDNSVMName": {
-			"type" : "string",
-			"metadata" : {
-				"description" : "Unique DNS prefix for the SYNC machine"
-			}
-		),
 		"assetLocation" : {
 			"type" : "string",
 			"metadata" : {
