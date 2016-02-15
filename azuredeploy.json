@@ -572,7 +572,7 @@
 						"typeHandlerVersion" : "1.0",
 						"settings" : {
 							"Name" : "[parameters('domainName')]",
-							"OUPath" : "[parameters('ouPath')]",
+							"OUPath" : "[variables('ouPath')]",
 							"User" : "[concat(parameters('domainName'), '\\', parameters('domainUsername'))]",
 							"Restart" : "true",
 							"Options" : "[parameters('domainJoinOptions')]"
@@ -687,7 +687,7 @@
 						"typeHandlerVersion" : "1.0",
 						"settings" : {
 							"Name" : "[parameters('domainName')]",
-							"OUPath" : "[parameters('ouPath')]",
+							"OUPath" : "[variables('ouPath')]",
 							"User" : "[concat(parameters('domainName'), '\\', parameters('domainUsername'))]",
 							"Restart" : "true",
 							"Options" : "[parameters('domainJoinOptions')]"
@@ -793,7 +793,7 @@
 						"typeHandlerVersion" : "1.0",
 						"settings" : {
 							"Name" : "[parameters('domainName')]",
-							"OUPath" : "[parameters('ouPath')]",
+							"OUPath" : "[variables('ouPath')]",
 							"User" : "[concat(parameters('domainName'), '\\', parameters('domainUsername'))]",
 							"Restart" : "true",
 							"Options" : "[parameters('domainJoinOptions')]"
