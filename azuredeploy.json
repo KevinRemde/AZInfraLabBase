@@ -15,19 +15,6 @@
 				"description" : "The region to deploy the resources into"
 			}
 		},
-		"dcDNSVMName" : {
-			"type" : "string",
-			"metadata" : {
-				"description" : "Unique DNS prefix for the DC"
-			}
-		},
-		"dcVMSize" : {
-			"type" : "string",
-			"defaultValue" : "Standard_D2",
-			"metadata" : {
-				"description" : "The size of the virtual machines"
-			}
-		},
 		"adminDNSVMName": {
 			"type" : "string",
 			"metadata" : {
@@ -35,6 +22,19 @@
 			}
 		},
 		"adminVMSize" : {
+			"type" : "string",
+			"defaultValue" : "Standard_D2",
+			"metadata" : {
+				"description" : "The size of the virtual machines"
+			}
+		},
+		"dcDNSVMName" : {
+			"type" : "string",
+			"metadata" : {
+				"description" : "Unique DNS prefix for the DC"
+			}
+		},
+		"dcVMSize" : {
 			"type" : "string",
 			"defaultValue" : "Standard_D2",
 			"metadata" : {
