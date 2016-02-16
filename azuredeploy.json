@@ -172,7 +172,7 @@
 		"adminCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('adminCustomScriptFileToRun'))]",
 		"edgeCustomScriptFileToRun" : "ConfigEdge.ps1",
 		"edgeCustomScriptFileUri" : "[concat(parameters('assetLocation'), variables('edgeCustomScriptFileToRun'))]",
-		"syncCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('syncCustomScriptFileToRun'))]",
+		"edgeCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('syncCustomScriptFileToRun'))]",
 		"syncCustomScriptFileToRun" : "ConfigSync.ps1",
 		"syncCustomScriptFileUri" : "[concat(parameters('assetLocation'), variables('syncCustomScriptFileToRun'))]",
 		"syncCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('syncCustomScriptFileToRun'))]"
