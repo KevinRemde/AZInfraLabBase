@@ -142,7 +142,7 @@ New-AzureRMResourceGroup -Name $rgname -Location $loc
 # Note: takes approx. 30 minutes to complete.
 
 Write-Host ""
-Write-Host "Sit back and relax. this will take 30-45 minutes to complete."
+Write-Host "Deploying the VMs.  This will take 30-45 minutes to complete."
 Write-Host "Started at" (Get-Date -format T)
 Write-Host ""
 
@@ -163,5 +163,7 @@ Write-Host "Completed at" (Get-Date -format T)
 # Get-AzureRmVM -ResourceGroupName $rgName | Start-AzureRmVM 
 
 
-# Delete the entire resource group (and all VMs and other objects).
+# Delete the entire resource group (and all of its VMs and other objects).
 # Remove-AzureRmResourceGroup -Name $rgName -Force
+
+
