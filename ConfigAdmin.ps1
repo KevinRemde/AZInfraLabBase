@@ -12,6 +12,7 @@ function Enable-IEDownloads {
     Set-ItemProperty -Path $UserKey -Name "1803" -Value 0
     # Write-Host "IE downloads have been enabled." -ForegroundColor Green
 }
+Enable-IEDownloads
 
 Import-Module ServerManager
 
@@ -27,5 +28,4 @@ Add-WindowsFeature RSAT-AD-PowerShell,RSAT-AD-AdminCenter
 
 # Run the functions to disable IE Enhanced Security and enable IE downloads
 Disable-InternetExplorerESC
-Enable-IEDownloads
 

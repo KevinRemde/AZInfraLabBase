@@ -15,6 +15,6 @@ function Enable-IEDownloads {
 
 
 # Run the functions to disable IE Enhanced Security and enable IE downloads
-Disable-InternetExplorerESC
 Enable-IEDownloads
+Disable-InternetExplorerESC
 
