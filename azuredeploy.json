@@ -17,7 +17,7 @@
 		},
 		"dcDNSVMName" : {
 			"type" : "string",
-			"defaultValue" : "dckar06",
+			"defaultValue" : "dckar08",
 			"metadata" : {
 				"description" : "Unique DNS prefix for the DC"
 			}
@@ -31,7 +31,7 @@
 		},
 		"adminDNSVMName": {
 			"type" : "string",
-			"defaultValue" : "adminkar06",
+			"defaultValue" : "adminkar08",
 			"metadata" : {
 				"description" : "Unique DNS prefix for the ADMIN machine"
 			}
@@ -45,7 +45,7 @@
 		},
 		"edgeDNSVMName": {
 			"type" : "string",
-			"defaultValue" : "edgekar06",
+			"defaultValue" : "edgekar08",
 			"metadata" : {
 				"description" : "Unique DNS prefix for the EDGE"
 			}
@@ -59,7 +59,7 @@
 		},
 		"syncDNSVMName": {
 			"type" : "string",
-			"defaultValue" : "synckar06",
+			"defaultValue" : "synckar08",
 			"metadata" : {
 				"description" : "Unique DNS prefix for the SYNC machine"
 			}
@@ -172,7 +172,7 @@
 		"adminCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('adminCustomScriptFileToRun'))]",
 		"edgeCustomScriptFileToRun" : "ConfigEdge.ps1",
 		"edgeCustomScriptFileUri" : "[concat(parameters('assetLocation'), variables('edgeCustomScriptFileToRun'))]",
-		"edgeCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('syncCustomScriptFileToRun'))]",
+		"edgeCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('edgeCustomScriptFileToRun'))]",
 		"syncCustomScriptFileToRun" : "ConfigSync.ps1",
 		"syncCustomScriptFileUri" : "[concat(parameters('assetLocation'), variables('syncCustomScriptFileToRun'))]",
 		"syncCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('syncCustomScriptFileToRun'))]"
