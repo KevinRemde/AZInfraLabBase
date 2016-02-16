@@ -33,8 +33,8 @@ Add-WindowsFeature RSAT-AD-PowerShell,RSAT-AD-AdminCenter
 # Install-WindowsFeature RemoteAccess -IncludeManagementTools
 # Add-WindowsFeature -name Routing -IncludeManagementTools
 
-invoke-command -computername SYNC {Install-WindowsFeature RemoteAccess -IncludeManagementTools}
-invoke-command -computername SYNC {Add-WindowsFeature -name Routing -IncludeManagementTools}
+invoke-command -computername EDGE {Install-WindowsFeature RemoteAccess -IncludeManagementTools}
+invoke-command -computername EDGE {Add-WindowsFeature -name Routing -IncludeManagementTools}
 
 # Run the function to disable IE Enhanced Security
 Disable-InternetExplorerESC
