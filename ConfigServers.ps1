@@ -4,7 +4,7 @@
     Set-ItemProperty -Path $AdminKey -Name "IsInstalled" -Value 0
     Set-ItemProperty -Path $UserKey -Name "IsInstalled" -Value 0
     Stop-Process -Name Explorer
-    Write-Host "IE Enhanced Security Configuration (ESC) has been disabled." -ForegroundColor Green
+    # Write-Host "IE Enhanced Security Configuration (ESC) has been disabled." -ForegroundColor Green
 }
 
 # Install the Azure Resource Manager modules from the PowerShell Gallery 
