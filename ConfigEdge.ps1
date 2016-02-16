@@ -7,22 +7,11 @@
     # Write-Host "IE Enhanced Security Configuration (ESC) has been disabled." -ForegroundColor Green
 }
 
-# Install the Azure Resource Manager modules from the PowerShell Gallery 
-# NOTE: requires a NuGet .exe, and asks to download and install it first.  Handy, but doesn't work in silent mode, 
-# and no way to force it.
-<#
-Install-Module AzureRM
-Install-AzureRM
-
-# Install the Azure Service Management module from the PowerShell Gallery
-Install-Module Azure
-
-# Import AzureRM modules for the given version manifest in the AzureRM module
-Import-AzureRM
-
-# Import Azure Service Management module
-Import-Module Azure
-#>
+function Enable-IEDownloads {
+    $UserKey = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3"
+    Set-ItemProperty -Path $UserKey -Name "1803" -Value 0
+    # Write-Host "IE downloads have been enabled." -ForegroundColor Green
+}
 
 Import-Module ServerManager
 
@@ -36,6 +25,6 @@ Add-WindowsFeature -name Routing -IncludeManagementTools
 #invoke-command -computername EDGE {Install-WindowsFeature RemoteAccess -IncludeManagementTools}
 #invoke-command -computername EDGE {Add-WindowsFeature -name Routing -IncludeManagementTools}
 
-# Run the function to disable IE Enhanced Security
+# Run the functions to disable IE Enhanced Security and enable IE downloads
 Disable-InternetExplorerESC
-
+Enable-IEDownloads

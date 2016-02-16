@@ -13,17 +13,6 @@ function Enable-IEDownloads {
     # Write-Host "IE downloads have been enabled." -ForegroundColor Green
 }
 
-Import-Module ServerManager
-
-# Install AD Administration Tools locally
-Add-WindowsFeature RSAT-AD-PowerShell,RSAT-AD-AdminCenter
-
-# Install RRAS role on EDGE
-# Install-WindowsFeature RemoteAccess -IncludeManagementTools
-# Add-WindowsFeature -name Routing -IncludeManagementTools
-
-#invoke-command -computername EDGE {Install-WindowsFeature RemoteAccess -IncludeManagementTools}
-#invoke-command -computername EDGE {Add-WindowsFeature -name Routing -IncludeManagementTools}
 
 # Run the functions to disable IE Enhanced Security and enable IE downloads
 Disable-InternetExplorerESC
