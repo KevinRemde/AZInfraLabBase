@@ -167,6 +167,9 @@
 		"vnetwithDNSTemplateUri" : "[concat(parameters('assetLocation'),'vnet-with-dns-server.json')]",
 		"dcModulesURL" : "[concat(parameters('assetLocation'),'CreateADPDC.ps1.zip')]",
 		"dcConfigurationFunction" : "CreateADPDC.ps1\\CreateADPDC",
+		"dcCustomScriptFileToRun" : "ConfigDC.ps1",
+		"dcCustomScriptFileUri" : "[concat(parameters('assetLocation'), variables('dcCustomScriptFileToRun'))]",
+		"dcCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('dcCustomScriptFileToRun'))]",
 		"adminCustomScriptFileToRun" : "ConfigAdmin.ps1",
 		"adminCustomScriptFileUri" : "[concat(parameters('assetLocation'), variables('adminCustomScriptFileToRun'))]",
 		"adminCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('adminCustomScriptFileToRun'))]",
@@ -517,6 +520,28 @@
 								"AdminPassword" : "[parameters('domainPassword')]"
 							}
 						}
+					}
+				}, {		
+					"apiVersion" : "2015-05-01-preview",
+					"type" : "Microsoft.Compute/virtualMachines/extensions",
+					"name" : "[concat(variables('dcVMName'),'/RunAutomation')]",
+					"location" : "[resourceGroup().location]",
+					"dependsOn" : [
+						"[concat('Microsoft.Compute/virtualMachines/', variables('dcVMName'))]",
+						"[concat('Microsoft.Compute/virtualMachines/', variables('dcVMName'), '/extensions/createADForest')]"
+					],
+					"properties" : {
+						"publisher" : "Microsoft.Compute",
+						"type" : "CustomScriptExtension",
+						"typeHandlerVersion" : "1.3",
+						"autoUpgradeMinorVersion" : "true",
+						"settings" : {
+							"fileUris" : [
+								"[variables('dcCustomScriptFileUri')]"
+							],
+							"commandToExecute" : "[variables('dcCommandToExecute')]"
+						},
+						"protectedSettings" : null
 					}
 				}
 			]
