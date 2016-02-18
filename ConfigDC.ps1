@@ -105,6 +105,9 @@ is used.
 
 }
 Unzip-File -File C:\labfiles\labfiles.zip -Destination C:\labfiles\
+
+Remove-Item -Path C:\LabFiles\labfiles.zip
+
 # 
 # Set group policy for Internet Explorer on member servers.
 # NOTE: This is not recommended for production servers, and only being done to allow servers in the lab

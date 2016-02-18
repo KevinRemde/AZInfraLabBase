@@ -125,3 +125,4 @@ is used.
 
 }
 Unzip-File -File C:\labfiles\labfiles.zip -Destination C:\labfiles\
+Remove-Item -Path C:\LabFiles\labfiles.zip
