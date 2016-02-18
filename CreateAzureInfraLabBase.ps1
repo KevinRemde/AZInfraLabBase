@@ -117,13 +117,13 @@ while ($uniqueName -eq $false) {
 $parameterObject = @{
     "location" = "$loc"
     "dcDNSVMName" = $dcDNSVMName 
-    "dcVMSize" = "Standard_D2"
+    "dcVMSize" = "Standard_D1"
     "adminDNSVMName" = $adminDNSVMName 
-    "adminVMSize" = "Standard_D2"
+    "adminVMSize" = "Standard_D1"
     "edgeDNSVMName" = $edgeDNSVMName 
     "edgeVMSize" = "Standard_D2"
     "syncDNSVMName" = $syncDNSVMName 
-    "syncVMSize" = "Standard_D2"
+    "syncVMSize" = "Standard_D1"
     "domainName" = "contoso.com"
     "domainUserName" = "labAdmin"
     "domainPassword" = "Passw0rd!"

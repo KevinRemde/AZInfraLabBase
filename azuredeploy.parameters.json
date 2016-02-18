@@ -6,16 +6,16 @@
 			"value" : "East US"
 		},
 		"dcVMSize" : {
-			"value" : "Standard_D2"
+			"value" : "Standard_D1"
 		},
 		"adminVMSize" : {
-			"value" : "Standard_D2"
+			"value" : "Standard_D1"
 		},
 		"edgeVMSize" : {
 			"value" : "Standard_D2"
 		},
 		"syncVMSize" : {
-			"value" : "Standard_D2"
+			"value" : "Standard_D1"
 		},
 		"domainName" : {
 			"value" : "contoso.com"
