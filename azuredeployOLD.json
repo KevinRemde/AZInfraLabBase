@@ -17,7 +17,7 @@
 		},
 		"dcDNSVMName" : {
 			"type" : "string",
-			"defaultValue" : "dckar08",
+			"defaultValue" : "dckar10",
 			"metadata" : {
 				"description" : "Unique DNS prefix for the DC"
 			}
@@ -31,7 +31,7 @@
 		},
 		"adminDNSVMName": {
 			"type" : "string",
-			"defaultValue" : "adminkar08",
+			"defaultValue" : "adminkar10",
 			"metadata" : {
 				"description" : "Unique DNS prefix for the ADMIN machine"
 			}
@@ -45,7 +45,7 @@
 		},
 		"edgeDNSVMName": {
 			"type" : "string",
-			"defaultValue" : "edgekar08",
+			"defaultValue" : "edgekar10",
 			"metadata" : {
 				"description" : "Unique DNS prefix for the EDGE"
 			}
@@ -59,7 +59,7 @@
 		},
 		"syncDNSVMName": {
 			"type" : "string",
-			"defaultValue" : "synckar08",
+			"defaultValue" : "synckar10",
 			"metadata" : {
 				"description" : "Unique DNS prefix for the SYNC machine"
 			}
@@ -126,10 +126,10 @@
 		}
 	},
 	"variables" : {
-		"dcVMName": "dc",
-		"adminVMName": "admin",
-		"edgeVMName": "edge",
-		"syncVMName": "sync",
+		"dcVMName": "DC",
+		"adminVMName": "ADMIN",
+		"edgeVMName": "EDGE",
+		"syncVMName": "SYNC",
 		"dcStorageAccountName" : "[concat(uniquestring(resourceGroup().id), variables('dcVMName'))]",
 		"adminStorageAccountName" : "[concat(uniquestring(resourceGroup().id), variables('adminVMName'))]",
 		"edgeStorageAccountName" : "[concat(uniquestring(resourceGroup().id), variables('edgeVMName'))]",
@@ -166,19 +166,7 @@
 		"vnetTemplateUri" : "[concat(parameters('assetLocation'),'vnet.json')]",
 		"vnetwithDNSTemplateUri" : "[concat(parameters('assetLocation'),'vnet-with-dns-server.json')]",
 		"dcModulesURL" : "[concat(parameters('assetLocation'),'CreateADPDC.ps1.zip')]",
-		"dcConfigurationFunction" : "CreateADPDC.ps1\\CreateADPDC",
-		"dcCustomScriptFileToRun" : "ConfigDC.ps1",
-		"dcCustomScriptFileUri" : "[concat(parameters('assetLocation'), variables('dcCustomScriptFileToRun'))]",
-		"dcCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('dcCustomScriptFileToRun'))]",
-		"adminCustomScriptFileToRun" : "ConfigAdmin.ps1",
-		"adminCustomScriptFileUri" : "[concat(parameters('assetLocation'), variables('adminCustomScriptFileToRun'))]",
-		"adminCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('adminCustomScriptFileToRun'))]",
-		"edgeCustomScriptFileToRun" : "ConfigEdge.ps1",
-		"edgeCustomScriptFileUri" : "[concat(parameters('assetLocation'), variables('edgeCustomScriptFileToRun'))]",
-		"edgeCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('edgeCustomScriptFileToRun'))]",
-		"syncCustomScriptFileToRun" : "ConfigSync.ps1",
-		"syncCustomScriptFileUri" : "[concat(parameters('assetLocation'), variables('syncCustomScriptFileToRun'))]",
-		"syncCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('syncCustomScriptFileToRun'))]"
+		"dcConfigurationFunction" : "CreateADPDC.ps1\\CreateADPDC"
 	},
 	"resources" : [{
 			"type" : "Microsoft.Network/publicIPAddresses",
@@ -521,28 +509,6 @@
 							}
 						}
 					}
-				}, {		
-					"apiVersion" : "2015-05-01-preview",
-					"type" : "Microsoft.Compute/virtualMachines/extensions",
-					"name" : "[concat(variables('dcVMName'),'/RunAutomation')]",
-					"location" : "[resourceGroup().location]",
-					"dependsOn" : [
-						"[concat('Microsoft.Compute/virtualMachines/', variables('dcVMName'))]",
-						"[concat('Microsoft.Compute/virtualMachines/', variables('dcVMName'), '/extensions/createADForest')]"
-					],
-					"properties" : {
-						"publisher" : "Microsoft.Compute",
-						"type" : "CustomScriptExtension",
-						"typeHandlerVersion" : "1.3",
-						"autoUpgradeMinorVersion" : "true",
-						"settings" : {
-							"fileUris" : [
-								"[variables('dcCustomScriptFileUri')]"
-							],
-							"commandToExecute" : "[variables('dcCommandToExecute')]"
-						},
-						"protectedSettings" : null
-					}
 				}
 			]
 		}, {
@@ -646,28 +612,6 @@
 							"Properties" : {
 								"MachineName" : "[variables('adminVMName')]"
 							}
-						},
-						"protectedSettings" : null
-					}
-				}, {		
-					"apiVersion" : "2015-05-01-preview",
-					"type" : "Microsoft.Compute/virtualMachines/extensions",
-					"name" : "[concat(variables('adminVMName'),'/RunAutomation')]",
-					"location" : "[resourceGroup().location]",
-					"dependsOn" : [
-						"[concat('Microsoft.Compute/virtualMachines/', variables('adminVMName'))]",
-						"[concat('Microsoft.Compute/virtualMachines/', variables('adminVMName'), '/extensions/getlabfiles')]"
-					],
-					"properties" : {
-						"publisher" : "Microsoft.Compute",
-						"type" : "CustomScriptExtension",
-						"typeHandlerVersion" : "1.3",
-						"autoUpgradeMinorVersion" : "true",
-						"settings" : {
-							"fileUris" : [
-								"[variables('adminCustomScriptFileUri')]"
-							],
-							"commandToExecute" : "[variables('adminCommandToExecute')]"
 						},
 						"protectedSettings" : null
 					}
@@ -786,28 +730,6 @@
 						},
 						"protectedSettings" : null
 					}
-				}, {		
-					"apiVersion" : "2015-05-01-preview",
-					"type" : "Microsoft.Compute/virtualMachines/extensions",
-					"name" : "[concat(variables('edgeVMName'),'/RunAutomation')]",
-					"location" : "[resourceGroup().location]",
-					"dependsOn" : [
-						"[concat('Microsoft.Compute/virtualMachines/', variables('edgeVMName'))]",
-						"[concat('Microsoft.Compute/virtualMachines/', variables('edgeVMName'), '/extensions/getlabfiles')]"
-					],
-					"properties" : {
-						"publisher" : "Microsoft.Compute",
-						"type" : "CustomScriptExtension",
-						"typeHandlerVersion" : "1.3",
-						"autoUpgradeMinorVersion" : "true",
-						"settings" : {
-							"fileUris" : [
-								"[variables('edgeCustomScriptFileUri')]"
-							],
-							"commandToExecute" : "[variables('edgeCommandToExecute')]"
-						},
-						"protectedSettings" : null
-					}
 				}
 			]
 		}, {
@@ -911,28 +833,6 @@
 							"Properties" : {
 								"MachineName" : "[variables('syncVMName')]"
 							}
-						},
-						"protectedSettings" : null
-					}
-				}, {		
-					"apiVersion" : "2015-05-01-preview",
-					"type" : "Microsoft.Compute/virtualMachines/extensions",
-					"name" : "[concat(variables('syncVMName'),'/RunAutomation')]",
-					"location" : "[resourceGroup().location]",
-					"dependsOn" : [
-						"[concat('Microsoft.Compute/virtualMachines/', variables('syncVMName'))]",
-						"[concat('Microsoft.Compute/virtualMachines/', variables('syncVMName'), '/extensions/getlabfiles')]"
-					],
-					"properties" : {
-						"publisher" : "Microsoft.Compute",
-						"type" : "CustomScriptExtension",
-						"typeHandlerVersion" : "1.3",
-						"autoUpgradeMinorVersion" : "true",
-						"settings" : {
-							"fileUris" : [
-								"[variables('syncCustomScriptFileUri')]"
-							],
-							"commandToExecute" : "[variables('syncCommandToExecute')]"
 						},
 						"protectedSettings" : null
 					}
