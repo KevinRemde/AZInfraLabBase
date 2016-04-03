@@ -182,8 +182,8 @@
 	},
 	"resources" : [{
 			"type" : "Microsoft.Network/publicIPAddresses",
-			"apiVersion" : "[variables('apiVersion')]",
 			"name" : "[variables('dcPIPName')]",
+			"apiVersion" : "[variables('apiVersion')]",
 			"location" : "[resourceGroup().location]",
 			"properties" : {
 				"publicIPAllocationMethod" : "Dynamic",
@@ -193,8 +193,8 @@
 			}
 		}, {
 			"type" : "Microsoft.Network/publicIPAddresses",
-			"apiVersion" : "[variables('apiVersion')]",
 			"name" : "[variables('adminPIPName')]",
+			"apiVersion" : "[variables('apiVersion')]",
 			"location" : "[resourceGroup().location]",
 			"properties" : {
 				"publicIPAllocationMethod" : "Dynamic",
@@ -204,8 +204,8 @@
 			}
 		}, {
 			"type" : "Microsoft.Network/publicIPAddresses",
-			"apiVersion" : "[variables('apiVersion')]",
 			"name" : "[variables('edgePIPName')]",
+			"apiVersion" : "[variables('apiVersion')]",
 			"location" : "[resourceGroup().location]",
 			"properties" : {
 				"publicIPAllocationMethod" : "Dynamic",
@@ -215,8 +215,8 @@
 			}
 		}, {
 			"type" : "Microsoft.Network/publicIPAddresses",
-			"apiVersion" : "[variables('apiVersion')]",
 			"name" : "[variables('syncPIPName')]",
+			"apiVersion" : "[variables('apiVersion')]",
 			"location" : "[resourceGroup().location]",
 			"properties" : {
 				"publicIPAllocationMethod" : "Dynamic",
@@ -226,24 +226,24 @@
 			}
 		}, {
 			"type" : "Microsoft.Storage/storageAccounts",
-			"apiVersion" : "[variables('apiVersion')]",
 			"name" : "[variables('dcStorageAccountName')]",
+			"apiVersion" : "[variables('apiVersion')]",
 			"location" : "[resourceGroup().location]",
 			"properties" : {
 				"accountType" : "Standard_LRS"
 			}
 		}, {
 			"type" : "Microsoft.Storage/storageAccounts",
-			"apiVersion" : "[variables('apiVersion')]",
 			"name" : "[variables('adminStorageAccountName')]",
+			"apiVersion" : "[variables('apiVersion')]",
 			"location" : "[resourceGroup().location]",
 			"properties" : {
 				"accountType" : "Standard_LRS"
 			}
 		}, {
 			"type" : "Microsoft.Storage/storageAccounts",
-			"apiVersion" : "[variables('apiVersion')]",
 			"name" : "[variables('edgeStorageAccountName')]",
+			"apiVersion" : "[variables('apiVersion')]",
 			"location" : "[resourceGroup().location]",
 			"properties" : {
 				"accountType" : "Standard_LRS"
@@ -292,8 +292,8 @@
 			}
 		}, {
 			"type" : "Microsoft.Network/networkInterfaces",
-			"apiVersion" : "[variables('apiVersion')]",
 			"name" : "[variables('dcNICName')]",
+			"apiVersion" : "[variables('apiVersion')]",
 			"location" : "[resourceGroup().location]",
 			"tags" : {
 				"displayName" : "NetworkInterface - DC"
@@ -320,8 +320,8 @@
 			}
 		}, {
 			"type" : "Microsoft.Network/networkInterfaces",
-			"apiVersion" : "[variables('apiVersion')]",
 			"name" : "[variables('edgeFENICName')]",
+			"apiVersion" : "[variables('apiVersion')]",
 			"location" : "[resourceGroup().location]",
 			"tags" : {
 				"displayName" : "NetworkInterface - EDGE FE"
@@ -348,8 +348,8 @@
 			}
 		}, {
 			"type" : "Microsoft.Network/networkInterfaces",
-			"apiVersion" : "[variables('apiVersion')]",
 			"name" : "[variables('adminNICName')]",
+			"apiVersion" : "[variables('apiVersion')]",
 			"location" : "[resourceGroup().location]",
 			"tags" : {
 				"displayName" : "NetworkInterface - ADMIN"
@@ -380,8 +380,8 @@
 			}
 		}, {
 			"type" : "Microsoft.Network/networkInterfaces",
-			"apiVersion" : "[variables('apiVersion')]",
 			"name" : "[variables('edgeBENICName')]",
+			"apiVersion" : "[variables('apiVersion')]",
 			"location" : "[resourceGroup().location]",
 			"tags" : {
 				"displayName" : "NetworkInterface - EDGE BE"
@@ -409,8 +409,8 @@
 			}
 		}, {
 			"type" : "Microsoft.Network/networkInterfaces",
-			"apiVersion" : "[variables('apiVersion')]",
 			"name" : "[variables('syncNICName')]",
+			"apiVersion" : "[variables('apiVersion')]",
 			"location" : "[resourceGroup().location]",
 			"tags" : {
 				"displayName" : "NetworkInterface - SYNC"
@@ -441,7 +441,7 @@
 			}
 		}, {
 			"type" : "Microsoft.Compute/virtualMachines",
-			"apiVersion" : "2015-05-01-preview",
+			"apiVersion" : "[variables('apiVersion')]",
 			"name" : "[variables('dcVMName')]",
 			"location" : "[resourceGroup().location]",
 			"dependsOn" : [
@@ -478,7 +478,7 @@
 							},
 							"name" : "[concat(variables('dcVMName'),'-data-disk1')]",
 							"caching" : "None",
-							"createOption" : "empty",
+							"createOption" : "Empty",
 							"diskSizeGB" : "[variables('dcDataDiskSize')]",
 							"lun" : 0
 						}
@@ -494,7 +494,7 @@
 			"resources" : [{
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('dcVMName'),'/createADForest')]",
-					"apiVersion" : "2015-05-01-preview",
+					"apiVersion" : "[variables('apiVersion')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
 						"[resourceId('Microsoft.Compute/virtualMachines', variables('dcVMName'))]"
@@ -522,9 +522,9 @@
 						}
 					}
 				}, {		
-					"apiVersion" : "2015-05-01-preview",
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('dcVMName'),'/RunAutomation')]",
+					"apiVersion" : "[variables('apiVersion')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
 						"[concat('Microsoft.Compute/virtualMachines/', variables('dcVMName'))]",
@@ -546,9 +546,9 @@
 				}
 			]
 		}, {
-			"apiVersion" : "[variables('apiVersion')]",
 			"type" : "Microsoft.Compute/virtualMachines",
 			"name" : "[variables('adminVMName')]",
+			"apiVersion" : "[variables('apiVersion')]",
 			"location" : "[resourceGroup().location]",
 			"dependsOn" : [
 				"[resourceId('Microsoft.Storage/storageAccounts',variables('adminStorageAccountName'))]",
@@ -577,18 +577,7 @@
 						},
 						"caching" : "ReadWrite",
 						"createOption" : "FromImage"
-					},
-					"dataDisks" : [{
-							"name" : "myvm-data-disk1",
-							"vhd" : {
-								"Uri" : "[concat('http://',variables('adminStorageAccountName'),'.blob.core.windows.net/vhds/myvm-data-disk1.vhd')]"
-							},
-							"caching" : "None",
-							"createOption" : "Empty",
-							"diskSizeGB" : "1000",
-							"lun" : 0
-						}
-					]
+					}
 				},
 				"networkProfile" : {
 					"networkInterfaces" : [{
@@ -604,9 +593,9 @@
 				}
 			},
 			"resources" : [{
-					"apiVersion" : "[variables('apiVersion')]",
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('adminVMName'),'/joinDomain')]",
+					"apiVersion" : "[variables('apiVersion')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
 						"[concat('Microsoft.Compute/virtualMachines/', variables('adminVMName'))]",
@@ -628,9 +617,9 @@
 						}
 					}
 				}, {		
-					"apiVersion" : "2015-05-01-preview",
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('adminVMName'),'/getlabfiles')]",
+					"apiVersion" : "[variables('apiVersion')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
 						"[concat('Microsoft.Compute/virtualMachines/', variables('adminVMName'))]",
@@ -650,9 +639,9 @@
 						"protectedSettings" : null
 					}
 				}, {		
-					"apiVersion" : "2015-05-01-preview",
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('adminVMName'),'/RunAutomation')]",
+					"apiVersion" : "[variables('apiVersion')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
 						"[concat('Microsoft.Compute/virtualMachines/', variables('adminVMName'))]",
@@ -671,12 +660,12 @@
 						},
 						"protectedSettings" : null
 					}
-				}
+				} 
 			]
 		}, {
-			"apiVersion" : "[variables('apiVersion')]",
 			"type" : "Microsoft.Compute/virtualMachines",
 			"name" : "[variables('edgeVMName')]",
+			"apiVersion" : "[variables('apiVersion')]",
 			"location" : "[resourceGroup().location]",
 			"dependsOn" : [
 				"[resourceId('Microsoft.Storage/storageAccounts',variables('edgestorageAccountName'))]",
@@ -706,18 +695,7 @@
 						},
 						"caching" : "ReadWrite",
 						"createOption" : "FromImage"
-					},
-					"dataDisks" : [{
-							"name" : "myvm-data-disk1",
-							"vhd" : {
-								"Uri" : "[concat('http://',variables('edgestorageAccountName'),'.blob.core.windows.net/vhds/myvm-data-disk1.vhd')]"
-							},
-							"caching" : "None",
-							"createOption" : "Empty",
-							"diskSizeGB" : "1000",
-							"lun" : 0
-						}
-					]
+					}
 				},
 				"networkProfile" : {
 					"networkInterfaces" : [{
@@ -740,10 +718,10 @@
 					}
 				}
 			},
-			"resources" : [{
-					"apiVersion" : "[variables('apiVersion')]",
+			"resources" : [ {
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('edgeVMName'),'/joinDomain')]",
+					"apiVersion" : "[variables('apiVersion')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
 						"[concat('Microsoft.Compute/virtualMachines/', variables('edgeVMName'))]",
@@ -765,9 +743,9 @@
 						}
 					}
 				}, {		
-					"apiVersion" : "2015-05-01-preview",
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('edgeVMName'),'/getlabfiles')]",
+					"apiVersion" : "[variables('apiVersion')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
 						"[concat('Microsoft.Compute/virtualMachines/', variables('edgeVMName'))]",
@@ -787,9 +765,9 @@
 						"protectedSettings" : null
 					}
 				}, {		
-					"apiVersion" : "2015-05-01-preview",
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('edgeVMName'),'/RunAutomation')]",
+					"apiVersion" : "[variables('apiVersion')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
 						"[concat('Microsoft.Compute/virtualMachines/', variables('edgeVMName'))]",
@@ -809,11 +787,11 @@
 						"protectedSettings" : null
 					}
 				}
-			]
+              ]
 		}, {
-			"apiVersion" : "[variables('apiVersion')]",
 			"type" : "Microsoft.Compute/virtualMachines",
 			"name" : "[variables('syncVMName')]",
+			"apiVersion" : "[variables('apiVersion')]",
 			"location" : "[resourceGroup().location]",
 			"dependsOn" : [
 				"[resourceId('Microsoft.Storage/storageAccounts',variables('syncStorageAccountName'))]",
@@ -842,18 +820,7 @@
 						},
 						"caching" : "ReadWrite",
 						"createOption" : "FromImage"
-					},
-					"dataDisks" : [{
-							"name" : "myvm-data-disk1",
-							"vhd" : {
-								"Uri" : "[concat('http://',variables('syncStorageAccountName'),'.blob.core.windows.net/vhds/myvm-data-disk1.vhd')]"
-							},
-							"caching" : "None",
-							"createOption" : "Empty",
-							"diskSizeGB" : "1000",
-							"lun" : 0
-						}
-					]
+					}
 				},
 				"networkProfile" : {
 					"networkInterfaces" : [{
@@ -869,9 +836,9 @@
 				}
 			},
 			"resources" : [{
-					"apiVersion" : "[variables('apiVersion')]",
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('syncVMName'),'/joinDomain')]",
+					"apiVersion" : "[variables('apiVersion')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
 						"[concat('Microsoft.Compute/virtualMachines/', variables('syncVMName'))]",
@@ -893,9 +860,9 @@
 						}
 					}
 				}, {		
-					"apiVersion" : "2015-05-01-preview",
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('syncVMName'),'/getlabfiles')]",
+					"apiVersion" : "[variables('apiVersion')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
 						"[concat('Microsoft.Compute/virtualMachines/', variables('syncVMName'))]",
@@ -915,13 +882,13 @@
 						"protectedSettings" : null
 					}
 				}, {		
-					"apiVersion" : "2015-05-01-preview",
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('syncVMName'),'/RunAutomation')]",
+					"apiVersion" : "[variables('apiVersion')]",
 					"location" : "[resourceGroup().location]",
 					"dependsOn" : [
 						"[concat('Microsoft.Compute/virtualMachines/', variables('syncVMName'))]",
-						"[concat('Microsoft.Compute/virtualMachines/', variables('syncVMName'), '/extensions/getlabfiles')]"
+						"[concat('Microsoft.Compute/virtualMachines/', variables('syncVMName'),'/extensions/getlabfiles')]"
 					],
 					"properties" : {
 						"publisher" : "Microsoft.Compute",
@@ -936,11 +903,11 @@
 						},
 						"protectedSettings" : null
 					}
-				}
+				} 
 			]
 		}, {
-			"name" : "UpdateVNetDNS",
 			"type" : "Microsoft.Resources/deployments",
+			"name" : "UpdateVNetDNS",
 			"apiVersion" : "2015-01-01",
 			"dependsOn" : [
 				"[concat('Microsoft.Compute/virtualMachines/', variables('dcVMName'),'/extensions/createADForest')]"

@@ -52,6 +52,13 @@ $loc = Read-Host -Prompt "and then press ENTER."
 
 $rgName = "RG-AZLAB" + $init
 # $deploymentName = $init + "AZLab"  # Not required
+
+# Use these if you want to drive the deployment from local template and parameter files..
+#
+# $localAssets = "D:\GitHub\AZInfraLabBase\"
+# $templateFileLoc = $localAssets + "azuredeploy.json"
+# $parameterFileLoc = $localAssets + "azuredeploy.parameters.json"
+
 $assetLocation = "https://rawgit.com/KevinRemde/AZInfraLabBase/master/"
 $templateFileURI  = $assetLocation + "azuredeploy.json"
 $parameterFileURI = $assetLocation + "azuredeploy.parameters.json" # Use only if you want to use Kevin's defaults (not recommended)
@@ -146,15 +153,20 @@ Write-Host "Deploying the VMs.  This will take 30-45 minutes to complete."
 Write-Host "Started at" (Get-Date -format T)
 Write-Host ""
 
+# THIS IS THE MAIN ONE YOU'LL launch to pull the template file from the repository, and use the created parameter object.
 Measure-Command -expression {New-AzureRMResourceGroupDeployment -ResourceGroupName $rgName -TemplateUri $templateFileURI -TemplateParameterObject $parameterObject}
+
+# use only if you want to use a local copy of the template file.
+# Measure-Command -expression {New-AzureRMResourceGroupDeployment -ResourceGroupName $rgName -TemplateFile $templateFileLoc -TemplateParameterObject $parameterObject}
+
+# use only if you want to use Kevin's default parameters (not recommended)
+# New-AzureRMResourceGroupDeployment -ResourceGroupName $rgName -TemplateUri $templateFileURI -TemplateParameterUri $parameterFileURI
 
 Write-Host ""
 Write-Host "Completed at" (Get-Date -format T)
 
 
-# use only if you want to use Kevin's default parameters (not recommended)
-# New-AzureRMResourceGroupDeployment -ResourceGroupName $rgName -TemplateUri $templateFileURI -TemplateParameterUri $parameterFileURI
-
+# MORE EXAMPLES of what you may want to run later...
 
 # Shut down all lab VMs in the Resource Group when you're not using them.
 # Get-AzureRmVM -ResourceGroupName $rgName | Stop-AzureRmVM -Force
