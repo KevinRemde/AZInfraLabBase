@@ -13,7 +13,6 @@ function Enable-IEDownloads {
     # Write-Host "IE downloads have been enabled." -ForegroundColor Green
 }
 
-
 # Run the functions to disable IE Enhanced Security and enable IE downloads
 Enable-IEDownloads
 Disable-InternetExplorerESC
