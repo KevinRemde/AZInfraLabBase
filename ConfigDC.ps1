@@ -11,7 +11,7 @@ Import-Module grouppolicy
 # Get the GPO
 $gpo = Get-GPO -Name "Default Domain Policy" -Domain "contoso.com" 
 
-# Add the policy to allow WinRM
+# Add the policy to allow downloads
 $key = 'HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3'
 $params = @{
     Key = $key;
