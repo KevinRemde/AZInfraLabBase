@@ -12,7 +12,11 @@ function Enable-IEDownloads {
     Set-ItemProperty -Path $UserKey -Name "1803" -Value 0
     # Write-Host "IE downloads have been enabled." -ForegroundColor Green
 }
+
+# Run the functions to disable IE Enhanced Security and enable IE downloads
 Enable-IEDownloads
+Disable-InternetExplorerESC
+
 function Unzip-File {
 
 <#
@@ -134,6 +138,5 @@ Add-WindowsFeature RSAT-AD-PowerShell,RSAT-AD-AdminCenter
 #invoke-command -computername EDGE {Install-WindowsFeature RemoteAccess -IncludeManagementTools}
 #invoke-command -computername EDGE {Add-WindowsFeature -name Routing -IncludeManagementTools}
 
-# Run the functions to disable IE Enhanced Security and enable IE downloads
-Disable-InternetExplorerESC
+
 

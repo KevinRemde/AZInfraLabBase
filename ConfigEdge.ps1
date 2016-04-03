@@ -12,7 +12,11 @@ function Enable-IEDownloads {
     Set-ItemProperty -Path $UserKey -Name "1803" -Value 0
     # Write-Host "IE downloads have been enabled." -ForegroundColor Green
 }
+
+# Run the functions to disable IE Enhanced Security and enable IE downloads
 Enable-IEDownloads
+Disable-InternetExplorerESC
+
 function Unzip-File {
 
 <#
@@ -121,6 +125,7 @@ is used.
 }
 Unzip-File -File C:\labfiles\labfiles.zip -Destination C:\labfiles\
 Remove-Item -Path C:\LabFiles\labfiles.zip
+
 Import-Module ServerManager
 
 # Install AD Administration Tools locally
@@ -132,6 +137,3 @@ Add-WindowsFeature -name Routing -IncludeManagementTools
 
 #invoke-command -computername EDGE {Install-WindowsFeature RemoteAccess -IncludeManagementTools}
 #invoke-command -computername EDGE {Add-WindowsFeature -name Routing -IncludeManagementTools}
-
-# Run the functions to disable IE Enhanced Security and enable IE downloads
-Disable-InternetExplorerESC
