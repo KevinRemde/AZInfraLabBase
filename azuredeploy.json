@@ -446,7 +446,7 @@
 			"location" : "[resourceGroup().location]",
 			"dependsOn" : [
 				"[resourceId('Microsoft.Storage/storageAccounts',variables('dcStorageAccountName'))]",
-				"[resourceId('Microsoft.Network/networkInterfaces',variables('dcNICName'))]",
+				"[resourceId('Microsoft.Network/networkInterfaces',variables('dcNICName'))]"
 			],
 			"properties" : {
 				"hardwareProfile" : {
