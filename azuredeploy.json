@@ -121,7 +121,7 @@
 			"metadata" : {
 				"description" : "The location of resources such as templates and DSC modules that the script is dependent"
 			},
-			"defaultValue": "https://rawgit.com/KevinRemde/AZInfraLabBase/master/"
+			"defaultValue": "https://raw.githubusercontent.com/KevinRemde/AZInfraLabBase/master/"
 		}
 	},
 	"variables" : {
