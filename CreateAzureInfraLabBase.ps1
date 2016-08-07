@@ -59,7 +59,8 @@ $rgName = "RG-AZLAB" + $init
 # $templateFileLoc = $localAssets + "azuredeploy.json"
 # $parameterFileLoc = $localAssets + "azuredeploy.parameters.json"
 
-$assetLocation = "https://rawgit.com/KevinRemde/AZInfraLabBase/master/" 
+# $assetLocation = "https://rawgit.com/KevinRemde/AZInfraLabBase/master/"  Wanted to use this, but sometimes it fails.
+$assetLocation = "https://raw.githubusercontent.com/KevinRemde/AZInfraLabBase/master/"
 # If the rawgit.com path is not available, you can try un-commenting the following line instead...
 # $assetLocation = "https://raw.githubusercontent.com/KevinRemde/AZInfraLabBase/master/"
 $templateFileURI  = $assetLocation + "azuredeploy.json"
