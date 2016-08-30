@@ -34,6 +34,14 @@ EDGE - Automate the istallation of Routing and Remote Access.
 Login-AzureRmAccount
 Get-AzureRmSubscription | Select-AzureRmSubscription 
 
+# Note:
+# If you have more than one subscription, you may need to comment out the "Get-AzureRmSubscription"
+# Line Above and uncomment this one below to choose the subscription you want to use, rather 
+# than some last-used default.
+#
+# Get-AzureRmSubscription -SubscriptionName "Your Subscription Name" | Select-AzureRmSubscription 
+
+
 
 # collect initials for generating unique names
 
