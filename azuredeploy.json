@@ -501,7 +501,7 @@
 					"properties" : {
 						"publisher" : "Microsoft.Powershell",
 						"type" : "DSC",
-						"typeHandlerVersion" : "2.11",
+						"typeHandlerVersion" : "2.19",
 						"autoUpgradeMinorVersion" : true,
 						"settings" : {
 							"ModulesUrl" : "[variables('dcModulesURL')]",
@@ -627,7 +627,8 @@
 					"properties" : {
 						"publisher" : "Microsoft.Powershell",
 						"type" : "DSC",
-						"typeHandlerVersion" : "2.8",
+						"typeHandlerVersion" : "1.19",
+						"autoUpgradeMinorVersion" : true,
 						"settings" : {
 							"ModulesUrl" : "[concat(parameters('assetLocation'),'getlabfiles.zip')]",
 							"ConfigurationFunction" : "getlabfiles.ps1\\getlabfiles",
@@ -753,7 +754,8 @@
 					"properties" : {
 						"publisher" : "Microsoft.Powershell",
 						"type" : "DSC",
-						"typeHandlerVersion" : "2.8",
+						"typeHandlerVersion" : "1.19",
+						"autoUpgradeMinorVersion" : true,
 						"settings" : {
 							"ModulesUrl" : "[concat(parameters('assetLocation'),'getlabfiles.zip')]",
 							"ConfigurationFunction" : "getlabfiles.ps1\\getlabfiles",
@@ -870,7 +872,8 @@
 					"properties" : {
 						"publisher" : "Microsoft.Powershell",
 						"type" : "DSC",
-						"typeHandlerVersion" : "2.8",
+						"typeHandlerVersion" : "1.19",
+						"autoUpgradeMinorVersion" : true,
 						"settings" : {
 							"ModulesUrl" : "[concat(parameters('assetLocation'),'getlabfiles.zip')]",
 							"ConfigurationFunction" : "getlabfiles.ps1\\getlabfiles",

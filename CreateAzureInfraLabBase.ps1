@@ -39,7 +39,7 @@ Get-AzureRmSubscription | Select-AzureRmSubscription
 # Line Above and uncomment this one below to choose the subscription you want to use, rather 
 # than some last-used default.
 #
-# Get-AzureRmSubscription -SubscriptionName "Your Subscription Name" | Select-AzureRmSubscription 
+Get-AzureRmSubscription -SubscriptionName "KevRem Azure" | Select-AzureRmSubscription 
 
 
 
