@@ -257,7 +257,7 @@
 			"metadata" : {
 				"description" : "The location of resources such as templates and DSC modules that the script is dependent"
 			},
-			"defaultValue": "https://raw.githubusercontent.com/KevinRemde/AZInfraLabBase/master"
+			"defaultValue": "https://raw.githubusercontent.com/KevinRemde/AZInfraLabBase/master/"
 		}
 	},
 	"variables" : {
@@ -298,20 +298,20 @@
 		"labSubnetId" : "[concat(variables('vnetID'),'/subnets/', variables('labSubnetName'))]",
 		"dcDataDisk" : "dcDataDisk",
 		"dcDataDiskSize" : 1000,
-		"vnetTemplateUri" : "[concat(parameters('assetLocation'),'/nestedtemplates/vnet.json')]",
-		"vnetwithDNSTemplateUri" : "[concat(parameters('assetLocation'),'/nestedtemplates/vnet-with-dns-server.json')]",
-		"dcModulesURL" : "[concat(parameters('assetLocation'),'/DSC/CreateADPDC.ps1.zip')]",
+		"vnetTemplateUri" : "[concat(parameters('assetLocation'),'nestedtemplates/vnet.json')]",
+		"vnetwithDNSTemplateUri" : "[concat(parameters('assetLocation'),'nestedtemplates/vnet-with-dns-server.json')]",
+		"dcModulesURL" : "[concat(parameters('assetLocation'),'DSC/CreateADPDC.ps1.zip')]",
 		"dcConfigurationFunction" : "CreateADPDC.ps1\\CreateADPDC",
-		"dcCustomScriptFileToRun" : "/ConfigDC.ps1",
+		"dcCustomScriptFileToRun" : "ConfigDC.ps1",
 		"dcCustomScriptFileUri" : "[concat(parameters('assetLocation'), variables('dcCustomScriptFileToRun'))]",
 		"dcCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('dcCustomScriptFileToRun'))]",
-		"adminCustomScriptFileToRun" : "/ConfigAdmin.ps1",
+		"adminCustomScriptFileToRun" : "ConfigAdmin.ps1",
 		"adminCustomScriptFileUri" : "[concat(parameters('assetLocation'), variables('adminCustomScriptFileToRun'))]",
 		"adminCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('adminCustomScriptFileToRun'))]",
-		"edgeCustomScriptFileToRun" : "/ConfigEdge.ps1",
+		"edgeCustomScriptFileToRun" : "ConfigEdge.ps1",
 		"edgeCustomScriptFileUri" : "[concat(parameters('assetLocation'), variables('edgeCustomScriptFileToRun'))]",
 		"edgeCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('edgeCustomScriptFileToRun'))]",
-		"syncCustomScriptFileToRun" : "/ConfigSync.ps1",
+		"syncCustomScriptFileToRun" : "ConfigSync.ps1",
 		"syncCustomScriptFileUri" : "[concat(parameters('assetLocation'), variables('syncCustomScriptFileToRun'))]",
 		"syncCommandToExecute" : "[concat('powershell.exe -File', ' ', variables('syncCustomScriptFileToRun'))]"
 	},
