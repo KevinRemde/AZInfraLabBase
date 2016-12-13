@@ -780,7 +780,7 @@
 					"properties" : {
 						"publisher" : "Microsoft.Powershell",
 						"type" : "DSC",
-						"typeHandlerVersion" : "1.19",
+						"typeHandlerVersion" : "2.21",
 						"autoUpgradeMinorVersion" : true,
 						"settings" : {
 							"ModulesUrl" : "[concat(parameters('assetLocation'),'getlabfiles.zip')]",
@@ -910,7 +910,7 @@
 					"properties" : {
 						"publisher" : "Microsoft.Powershell",
 						"type" : "DSC",
-						"typeHandlerVersion" : "1.19",
+						"typeHandlerVersion" : "2.21",
 						"autoUpgradeMinorVersion" : true,
 						"settings" : {
 							"ModulesUrl" : "[concat(parameters('assetLocation'),'getlabfiles.zip')]",
@@ -1031,7 +1031,7 @@
 					"properties" : {
 						"publisher" : "Microsoft.Powershell",
 						"type" : "DSC",
-						"typeHandlerVersion" : "1.19",
+						"typeHandlerVersion" : "2.21",
 						"autoUpgradeMinorVersion" : true,
 						"settings" : {
 							"ModulesUrl" : "[concat(parameters('assetLocation'),'getlabfiles.zip')]",
