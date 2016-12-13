@@ -326,7 +326,8 @@
 					"domainNameLabel" : "[parameters('dcDNSVMName')]"
 				}
 			}
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Network/publicIPAddresses",
 			"name" : "[variables('adminPIPName')]",
 			"apiVersion" : "[variables('apiVersion')]",
@@ -337,7 +338,8 @@
 					"domainNameLabel" : "[parameters('adminDNSVMName')]"
 				}
 			}
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Network/publicIPAddresses",
 			"name" : "[variables('edgePIPName')]",
 			"apiVersion" : "[variables('apiVersion')]",
@@ -348,7 +350,8 @@
 					"domainNameLabel" : "[parameters('edgeDNSVMName')]"
 				}
 			}
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Network/publicIPAddresses",
 			"name" : "[variables('syncPIPName')]",
 			"apiVersion" : "[variables('apiVersion')]",
@@ -359,7 +362,8 @@
 					"domainNameLabel" : "[parameters('syncDNSVMName')]"
 				}
 			}
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Storage/storageAccounts",
 			"name" : "[variables('dcStorageAccountName')]",
 			"apiVersion" : "[variables('apiVersion')]",
@@ -367,7 +371,8 @@
 			"properties" : {
 				"accountType" : "Standard_LRS"
 			}
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Storage/storageAccounts",
 			"name" : "[variables('adminStorageAccountName')]",
 			"apiVersion" : "[variables('apiVersion')]",
@@ -375,7 +380,8 @@
 			"properties" : {
 				"accountType" : "Standard_LRS"
 			}
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Storage/storageAccounts",
 			"name" : "[variables('edgeStorageAccountName')]",
 			"apiVersion" : "[variables('apiVersion')]",
@@ -383,7 +389,8 @@
 			"properties" : {
 				"accountType" : "Standard_LRS"
 			}
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Storage/storageAccounts",
 			"apiVersion" : "[variables('apiVersion')]",
 			"name" : "[variables('syncStorageAccountName')]",
@@ -391,7 +398,8 @@
 			"properties" : {
 				"accountType" : "Standard_LRS"
 			}
-		}, {
+		}, 
+		{
 			"name" : "[variables('virtualNetworkName')]",
 			"type" : "Microsoft.Resources/deployments",
 			"apiVersion" : "2015-01-01",
@@ -425,7 +433,8 @@
 					}
 				}
 			}
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Network/networkInterfaces",
 			"name" : "[variables('dcNICName')]",
 			"apiVersion" : "[variables('apiVersion')]",
@@ -453,7 +462,8 @@
 					}
 				]
 			}
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Network/networkInterfaces",
 			"name" : "[variables('edgeFENICName')]",
 			"apiVersion" : "[variables('apiVersion')]",
@@ -481,7 +491,8 @@
 					}
 				]
 			}
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Network/networkInterfaces",
 			"name" : "[variables('adminNICName')]",
 			"apiVersion" : "[variables('apiVersion')]",
@@ -513,7 +524,8 @@
 					]
 				}
 			}
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Network/networkInterfaces",
 			"name" : "[variables('edgeBENICName')]",
 			"apiVersion" : "[variables('apiVersion')]",
@@ -542,7 +554,8 @@
 					]
 				}
 			}
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Network/networkInterfaces",
 			"name" : "[variables('syncNICName')]",
 			"apiVersion" : "[variables('apiVersion')]",
@@ -574,7 +587,8 @@
 					]
 				}
 			}
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Compute/virtualMachines",
 			"apiVersion" : "[variables('apiVersion')]",
 			"name" : "[variables('dcVMName')]",
@@ -656,7 +670,8 @@
 							}
 						}
 					}
-				}, {		
+				}, 
+				{		
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('dcVMName'),'/RunAutomation')]",
 					"apiVersion" : "[variables('apiVersion')]",
@@ -680,7 +695,8 @@
 					}
 				}
 			]
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Compute/virtualMachines",
 			"name" : "[variables('adminVMName')]",
 			"apiVersion" : "[variables('apiVersion')]",
@@ -751,7 +767,8 @@
 							"Password" : "[parameters('domainPassword')]"
 						}
 					}
-				}, {		
+				}, 
+				{		
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('adminVMName'),'/getlabfiles')]",
 					"apiVersion" : "[variables('apiVersion')]",
@@ -774,7 +791,8 @@
 						},
 						"protectedSettings" : null
 					}
-				}, {		
+				}, 
+				{		
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('adminVMName'),'/RunAutomation')]",
 					"apiVersion" : "[variables('apiVersion')]",
@@ -798,7 +816,8 @@
 					}
 				} 
 			]
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Compute/virtualMachines",
 			"name" : "[variables('edgeVMName')]",
 			"apiVersion" : "[variables('apiVersion')]",
@@ -878,7 +897,8 @@
 							"Password" : "[parameters('domainPassword')]"
 						}
 					}
-				}, {		
+				}, 
+				{		
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('edgeVMName'),'/getlabfiles')]",
 					"apiVersion" : "[variables('apiVersion')]",
@@ -901,7 +921,8 @@
 						},
 						"protectedSettings" : null
 					}
-				}, {		
+				}, 
+				{		
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('edgeVMName'),'/RunAutomation')]",
 					"apiVersion" : "[variables('apiVersion')]",
@@ -925,7 +946,8 @@
 					}
 				}
               ]
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Compute/virtualMachines",
 			"name" : "[variables('syncVMName')]",
 			"apiVersion" : "[variables('apiVersion')]",
@@ -996,7 +1018,8 @@
 							"Password" : "[parameters('domainPassword')]"
 						}
 					}
-				}, {		
+				}, 
+				{		
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('syncVMName'),'/getlabfiles')]",
 					"apiVersion" : "[variables('apiVersion')]",
@@ -1019,7 +1042,8 @@
 						},
 						"protectedSettings" : null
 					}
-				}, {		
+				}, 
+				{		
 					"type" : "Microsoft.Compute/virtualMachines/extensions",
 					"name" : "[concat(variables('syncVMName'),'/RunAutomation')]",
 					"apiVersion" : "[variables('apiVersion')]",
@@ -1043,7 +1067,8 @@
 					}
 				} 
 			]
-		}, {
+		}, 
+		{
 			"type" : "Microsoft.Resources/deployments",
 			"name" : "UpdateVNetDNS",
 			"apiVersion" : "2015-01-01",
